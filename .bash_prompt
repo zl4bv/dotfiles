@@ -1,0 +1,105 @@
+#!/bin/bash
+
+# Heavily inspired by @mathiasbynens’s prompt: https://github.com/mathiasbynens/dotfiles
+
+# Set PS1_NOFANCY to disable the fancy prompt
+# Set PS1_NOSYMBOL to disable unicode symbols
+
+symbol_arrow1=${symbol_arrow1:-}
+symbol_arrow2=${symbol_arrow2:-}
+symbol_branch=${symbol_branch:- }
+
+if [[ $COLORTERM = gnome-* && $TERM = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
+  export TERM='gnome-256color';
+elif infocmp xterm-256color >/dev/null 2>&1; then
+  export TERM='xterm-256color';
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+  export TERM='xterm-256color'
+fi;
+
+_git_ps1() {
+  local s='';
+  local branchName='';
+
+  # Check if the current directory is in a Git repository.
+  if [ "$(git rev-parse --is-inside-work-tree &>/dev/null; echo "${?}")" == '0' ]; then
+
+    # check if the current directory is in .git before running git checks
+    if [ "$(git rev-parse --is-inside-git-dir 2> /dev/null)" == 'false' ]; then
+
+      # Ensure the index is up to date.
+      git update-index --really-refresh -q &>/dev/null;
+
+      # Check for uncommitted changes in the index.
+      if ! git diff --quiet --ignore-submodules --cached; then
+        s+='+';
+      fi;
+
+      # Check for unstaged changes.
+      if ! git diff-files --quiet --ignore-submodules --; then
+        s+='*';
+      fi;
+
+      # Check for untracked files.
+      if [ -n "$(git ls-files --others --exclude-standard)" ]; then
+        s+='%';
+      fi;
+
+      # Check for stashed files.
+      if git rev-parse --verify refs/stash &>/dev/null; then
+        s+='$';
+      fi;
+
+    fi;
+
+    # Get the short symbolic ref.
+    # If HEAD isn’t a symbolic ref, get the short SHA for the latest commit
+    # Otherwise, just give up.
+    branchName="$(git symbolic-ref --quiet --short HEAD 2> /dev/null || \
+      git rev-parse --short HEAD 2> /dev/null || \
+      echo '(unknown)')";
+
+    [ -n "${s}" ] && s=" ${s}";
+
+    printf -- "%s" "${branchName}${s}";
+  else
+    return;
+  fi;
+}
+
+_color_map() {
+  fg1=$(tput setaf "${1}")
+  bg1=$(tput setab "${2}")
+  fg2=$(tput setaf "${3}")
+  bg2=$(tput setab "${4}")
+}
+
+if [[ "${USER}" == "root" ]]; then
+  _color_map 232 214 232 202;
+elif [[ "${SSH_TTY}" ]]; then
+  _color_map 17 45 255 17;
+else
+  _color_map 17 190 255 238;
+fi;
+
+if [ ! -z "${PS1_NOSYMBOL}" ]; then
+  symbol_arrow1=''
+  symbol_arrow2=''
+  symbol_branch=''
+fi
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  symbol_branch=''
+fi
+vcs_fmtstr=" ${symbol_branch}%s "
+
+if [ -z "${PS1_NOFANCY}" ]; then
+  PS1="\\[${fg1}\\]\\[${bg1}\\]"
+  # shellcheck disable=SC2154
+  PS1+="${debian_chroot:+(${debian_chroot})}\\w "
+  PS1+="\\[${bg1}\\]\\[${bg2}\\]${symbol_arrow1}\\[${fg2}\\]\\[${bg2}\\]"
+  PS1+=" \$(__git_ps1 ${vcs_fmtstr} 2>/dev/null || _git_ps1 ${vcs_fmtstr})"
+  PS1+="\\[$(tput sgr0)\\]\\[${bg2}\\]${symbol_arrow1}\\[$(tput sgr0)\\] "
+else
+  PS1="${debian_chroot:+($debian_chroot)}\\u@\\h:\\w\\$ "
+fi
