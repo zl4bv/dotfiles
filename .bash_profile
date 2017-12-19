@@ -11,6 +11,11 @@ for file in ~/.{bash_prompt,aliases,functions,path,dockerfunc,extra,exports}; do
 done
 unset file
 
+if [[ "$OSTYPE" == "darwin"* ]] && [[ -r $HOME/.bashrc ]]; then
+  # shellcheck source=/dev/null
+  . $HOME/.bashrc
+fi
+
 # Append to the Bash history file, rather than overwriting it
 shopt -s histappend
 
