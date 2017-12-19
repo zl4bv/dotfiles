@@ -98,7 +98,7 @@ if [ -z "${PS1_NOFANCY}" ]; then
   # shellcheck disable=SC2154
   PS1+="${debian_chroot:+($debian_chroot)}\\w "
   PS1+="\\[$(tput setaf "$bg1")\\]\\[$(tput setab "$bg2")\\]${symbol_arrow1}\\[$(tput setaf "$fg2")\\]\\[$(tput setab "$bg2")\\]"
-  PS1+=" \\$(__git_ps1 "${vcs_fmtstr}" 2>/dev/null || _git_ps1 "${vcs_fmtstr}")"
+  PS1+=" \$(__git_ps1 \"${vcs_fmtstr}\" 2>/dev/null || _git_ps1 \"${vcs_fmtstr}\")"
   PS1+="\\[$(tput sgr0)\\]\\[$(tput setaf "$bg2")\\]${symbol_arrow1}\\[$(tput sgr0)\\] "
 else
   PS1="${debian_chroot:+($debian_chroot)}\\u@\\h:\\w\$ "
