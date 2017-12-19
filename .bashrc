@@ -83,6 +83,13 @@ for file in /etc/bash_completion.d/* ; do
   source "$file"
 done
 
+for file in /usr/local/bin/{kubeadm,kubectl,kops}; do
+  if [[ -x "$file" ]] && [[ -f "$file" ]]; then
+    # shellcheck source=/dev/null
+    source <($file completion $(basename $SHELL))
+  fi
+done
+
 if [[ -f "${HOME}/.bash_profile" ]]; then
   # shellcheck source=/dev/null
   source "${HOME}/.bash_profile"
