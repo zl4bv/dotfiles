@@ -58,6 +58,11 @@ if [[ -d /etc/bash_completion.d ]]; then
   unset file
 fi
 
+# the 'bash-completion' package needs to be installed
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+  source $(brew --prefix)/etc/bash_completion
+fi
+
 for file in /usr/local/bin/{kubeadm,kubectl,kops}; do
   if [[ -x "$file" ]] && [[ -f "$file" ]]; then
     # shellcheck source=/dev/null
