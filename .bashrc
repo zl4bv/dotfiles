@@ -41,22 +41,19 @@ fi
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
+if [[ -r /usr/local/bin/brew ]]; then
+  prefix=$(brew --prefix)
+fi
 if ! shopt -oq posix; then
-  if [[ -f /usr/share/bash-completion/bash_completion ]]; then
+  if [[ -f $prefix/usr/share/bash-completion/bash_completion ]]; then
     # shellcheck source=/dev/null
-    . /usr/share/bash-completion/bash_completion
-  elif [[ -f /etc/bash_completion ]]; then
+    . $prefix/usr/share/bash-completion/bash_completion
+  elif [[ -f $prefix/etc/bash_completion ]]; then
     # shellcheck source=/dev/null
-    . /etc/bash_completion
+    . $prefix/etc/bash_completion
   fi
 fi
-if [[ -d /etc/bash_completion.d ]]; then
-  for file in /etc/bash_completion.d/* ; do
-    # shellcheck source=/dev/null
-    source "$file"
-  done
-  unset file
-fi
+unset prefix
 
 # the 'bash-completion' package needs to be installed
 if [ -f $(brew --prefix)/etc/bash_completion ]; then
