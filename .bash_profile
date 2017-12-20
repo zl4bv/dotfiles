@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [[ "$OSTYPE" == "darwin"* ]] && [[ -r $HOME/.bashrc ]]; then
+  # shellcheck source=/dev/null
+  . $HOME/.bashrc
+fi
+
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.extra can be used for other settings you don’t want to commit.
@@ -10,11 +15,6 @@ for file in ~/.{bash_prompt,aliases,functions,path,dockerfunc,extra,exports}; do
   fi
 done
 unset file
-
-if [[ "$OSTYPE" == "darwin"* ]] && [[ -r $HOME/.bashrc ]]; then
-  # shellcheck source=/dev/null
-  . $HOME/.bashrc
-fi
 
 # Append to the Bash history file, rather than overwriting it
 shopt -s histappend
