@@ -55,6 +55,10 @@ if ! shopt -oq posix; then
 fi
 unset prefix
 
+if [[ -f /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash ]]; then
+  source /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
+fi
+
 # the 'bash-completion' package needs to be installed
 if [ -f $(brew --prefix)/etc/bash_completion ]; then
   source $(brew --prefix)/etc/bash_completion
