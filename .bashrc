@@ -56,12 +56,14 @@ fi
 unset prefix
 
 if [[ -f /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash ]]; then
+  # shellcheck source=/dev/null
   source /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
 fi
 
 # the 'bash-completion' package needs to be installed
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
-  source $(brew --prefix)/etc/bash_completion
+if [ -f "$(brew --prefix)/etc/bash_completion" ]; then
+  # shellcheck source=/dev/null
+  source "$(brew --prefix)/etc/bash_completion"
 fi
 
 for file in /usr/local/bin/{kubeadm,kubectl,kops}; do
