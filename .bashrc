@@ -78,5 +78,15 @@ unset file
 # solves error: "gpg: signing failed: Inappropriate ioctl for device"
 GPG_TTY="$(tty)"
 export GPG_TTY
-export SSH_AUTH_SOCK="${HOME}/.gnupg/S.gpg-agent.ssh"
-gpgconf --launch gpg-agent
+# Start the gpg-agent if not already running
+if ! pgrep -x -u "${USER}" gpg-agent >/dev/null 2>&1; then
+	gpg-connect-agent /bye >/dev/null 2>&1
+	gpg-connect-agent updatestartuptty /bye >/dev/null
+fi
+# Set SSH to use gpg-agent
+unset SSH_AGENT_PID
+if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+  export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+fi
+# add alias for ssh to update the tty
+alias ssh="gpg-connect-agent updatestartuptty /bye >/dev/null; ssh"
