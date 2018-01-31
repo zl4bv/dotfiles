@@ -24,3 +24,6 @@ done
 # https://github.com/zl4bv/aws-session-credentials
 alias amfa='aws-session new --mfa-code '
 alias ar='aws-session assume-role --role-alias '
+
+# Atom
+alias aa='atom -a '
