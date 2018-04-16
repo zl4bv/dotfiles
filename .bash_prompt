@@ -74,6 +74,10 @@ _color_map() {
   bg2=${4}
 }
 
+term_title() {
+  echo -ne "\033]0;"$*"\007"
+}
+
 if [[ "${USER}" == "root" ]]; then
   _color_map 232 214 232 202;
 elif [[ "${SSH_TTY}" ]]; then
@@ -103,3 +107,5 @@ if [ -z "${PS1_NOFANCY}" ]; then
 else
   PS1="${debian_chroot:+($debian_chroot)}\\u@\\h:\\w\$ "
 fi
+
+PS1+="$(term_title $(basename ${PWD}))"
