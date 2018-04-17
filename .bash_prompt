@@ -108,4 +108,4 @@ else
   PS1="${debian_chroot:+($debian_chroot)}\\u@\\h:\\w\$ "
 fi
 
-PS1+="$(term_title $(basename ${PWD}))"
+PS1="\[\e]0;\W\a\]$PS1"
