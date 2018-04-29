@@ -1,3 +1,10 @@
+shellcheck(){
+    docker run -it --rm \
+	-v $(pwd):/usr/src:ro \
+	-w /usr/src \
+	r.j3ss.co/shellcheck shellcheck "$@"
+}
+
 terraform(){
     docker run -it --rm \
         -v $(pwd):/tf \
@@ -5,5 +12,5 @@ terraform(){
         -e AWS_SESSION_TOKEN \
         -e AWS_SECRET_ACCESS_KEY \
         -e AWS_ACCESS_KEY_ID \
-        r.j3ss.co/terraform "$@"
+        r.j3ss.co/terraform -- "$@"
 }
