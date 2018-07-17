@@ -5,9 +5,9 @@
 # Set PS1_NOFANCY to disable the fancy prompt
 # Set PS1_NOSYMBOL to disable unicode symbols
 
-symbol_arrow1=${symbol_arrow1:-}
-symbol_arrow2=${symbol_arrow2:-}
-symbol_branch=${symbol_branch:- }
+symbol_arrow1=${symbol_arrow1:-}
+symbol_arrow2=${symbol_arrow2:-}
+symbol_branch=${symbol_branch:-}
 
 if [[ $COLORTERM = gnome-* && $TERM = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
   export TERM='gnome-256color';
