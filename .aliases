@@ -29,3 +29,5 @@ alias ar='aws-session assume-role --role-alias '
 alias aa='atom -a '
 
 alias ll='ls -la '
+
+command -v kubectl > /dev/null && source <(kubectl completion bash)
