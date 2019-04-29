@@ -75,7 +75,7 @@ _color_map() {
 }
 
 term_title() {
-  echo -ne "\033]0;"$*"\007"
+  echo -ne "\\033]0;$*\\007"
 }
 
 if [[ "${USER}" == "root" ]]; then
@@ -108,4 +108,4 @@ else
   PS1="${debian_chroot:+($debian_chroot)}\\u@\\h:\\w\$ "
 fi
 
-PS1="\[\e]0;\W\a\]$PS1"
+PS1="\\[\\e]0;\\W\\a\\]$PS1"

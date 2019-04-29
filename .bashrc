@@ -67,26 +67,32 @@ if [ -f "$(brew --prefix)/etc/bash_completion" ]; then
 fi
 
 for file in /usr/local/bin/{kubeadm,kubectl,kops}; do
-  if [[ -x "$file" ]] && [[ -f "$file" ]]; then
+  if [[ -x "${file}" ]]; then
     # shellcheck source=/dev/null
-    source <($file completion $(basename $SHELL))
+    source <(${file} completion $(basename "${SHELL}"))
   fi
 done
 unset file
 
-# use a tty for gpg
-# solves error: "gpg: signing failed: Inappropriate ioctl for device"
-GPG_TTY="$(tty)"
-export GPG_TTY
-# Start the gpg-agent if not already running
-if ! pgrep -x -u "${USER}" gpg-agent >/dev/null 2>&1; then
-	gpg-connect-agent /bye >/dev/null 2>&1
-	gpg-connect-agent updatestartuptty /bye >/dev/null
+if command -v gpg >/dev/null 2>&1; then
+  # use a tty for gpg
+  # solves error: "gpg: signing failed: Inappropriate ioctl for device"
+  GPG_TTY="$(tty)"
+  export GPG_TTY
+
+  # Start the gpg-agent if not already running
+  if ! pgrep -x -u "${USER}" gpg-agent >/dev/null 2>&1; then
+    gpg-connect-agent /bye >/dev/null 2>&1
+    gpg-connect-agent updatestartuptty /bye >/dev/null
+  fi
+
+  # Set SSH to use gpg-agent
+  unset SSH_AGENT_PID
+  if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+    SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+    export SSH_AUTH_SOCK
+  fi
+
+  # add alias for ssh to update the tty
+  alias ssh="gpg-connect-agent updatestartuptty /bye >/dev/null; ssh"
 fi
-# Set SSH to use gpg-agent
-unset SSH_AGENT_PID
-if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
-  export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-fi
-# add alias for ssh to update the tty
-alias ssh="gpg-connect-agent updatestartuptty /bye >/dev/null; ssh"
