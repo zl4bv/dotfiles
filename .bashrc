@@ -45,22 +45,29 @@ if [[ -r /usr/local/bin/brew ]]; then
   prefix=$(brew --prefix)
 fi
 if ! shopt -oq posix; then
-  if [[ -f $prefix/usr/share/bash-completion/bash_completion ]]; then
+  if [[ -f "${prefix}/usr/share/bash-completion/bash_completion" ]]; then
     # shellcheck source=/dev/null
-    . $prefix/usr/share/bash-completion/bash_completion
-  elif [[ -f $prefix/etc/bash_completion ]]; then
+    . "${prefix}/usr/share/bash-completion/bash_completion"
+  elif [[ -f ${prefix}/etc/bash_completion ]]; then
     # shellcheck source=/dev/null
-    . $prefix/etc/bash_completion
+    . "${prefix}/etc/bash_completion"
   fi
 fi
 unset prefix
 
-if [[ -f /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash ]]; then
+if [[ -f /usr/local/etc/bash_completion ]]; then
+  # shellcheck source=/dev/null
+  source /usr/local/etc/bash_completion
+elif [[ -f /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash ]]; then
   # shellcheck source=/dev/null
   source /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
+elif [[ -f "$(brew --prefix)/etc/bash_completion.d/git-completion.bash" ]]; then
+  # the 'bash-completion' and 'git' brew packages need to be installed
+  # shellcheck source=/dev/null
+  source "$(brew --prefix)/etc/bash_completion.d/git-completion.bash"
 fi
 
-# the 'bash-completion' package needs to be installed
+# t
 if [ -f "$(brew --prefix)/etc/bash_completion" ]; then
   # shellcheck source=/dev/null
   source "$(brew --prefix)/etc/bash_completion"
@@ -69,7 +76,7 @@ fi
 for file in /usr/local/bin/{kubeadm,kubectl,kops}; do
   if [[ -x "${file}" ]]; then
     # shellcheck source=/dev/null
-    source <(${file} completion $(basename "${SHELL}"))
+    source <(${file} completion "$(basename "${SHELL}")")
   fi
 done
 unset file

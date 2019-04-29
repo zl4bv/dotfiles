@@ -86,7 +86,7 @@ else
   _color_map 17 190 255 238;
 fi;
 
-if [ ! -z "${PS1_NOSYMBOL}" ]; then
+if [ -n "${PS1_NOSYMBOL}" ]; then
   symbol_arrow1=''
   symbol_arrow2=''
   symbol_branch=''
