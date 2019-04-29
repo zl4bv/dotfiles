@@ -4,7 +4,7 @@ CURDIR=$(pwd)
 
 # configure git
 #ln -fn ${CURDIR}/.gitignore ${HOME}/.gitignore;
-git update-index --skip-worktree "${CURDIR}/.gitconfig;"
+git update-index --skip-worktree "${CURDIR}/.gitconfig"
 
 # install homebrew
 if [ "$(uname -s)" != "Darwin" ]; then
