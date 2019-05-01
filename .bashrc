@@ -44,34 +44,31 @@ fi
 if [[ -r /usr/local/bin/brew ]]; then
   prefix=$(brew --prefix)
 fi
+
 if ! shopt -oq posix; then
   if [[ -f "${prefix}/usr/share/bash-completion/bash_completion" ]]; then
     # shellcheck source=/dev/null
-    . "${prefix}/usr/share/bash-completion/bash_completion"
+    source "${prefix}/usr/share/bash-completion/bash_completion"
   elif [[ -f ${prefix}/etc/bash_completion ]]; then
     # shellcheck source=/dev/null
-    . "${prefix}/etc/bash_completion"
+    source "${prefix}/etc/bash_completion"
   fi
 fi
+
+# This path will only exist if Xcode Command Line Tools are installed. To
+# install the tools, run:
+#
+#   xcode-select --install
+#
+if [[ -f "/Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash" ]]; then
+  # shellcheck source=/dev/null
+  source "/Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash"
+elif [[ -f "{prefix}/etc/bash_completion.d/git-completion.bash" ]]; then
+  # shellcheck source=/dev/null
+  source "{prefix}/etc/bash_completion.d/git-completion.bash"
+fi
+
 unset prefix
-
-if [[ -f /usr/local/etc/bash_completion ]]; then
-  # shellcheck source=/dev/null
-  source /usr/local/etc/bash_completion
-elif [[ -f /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash ]]; then
-  # shellcheck source=/dev/null
-  source /Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash
-elif [[ -f "$(brew --prefix)/etc/bash_completion.d/git-completion.bash" ]]; then
-  # the 'bash-completion' and 'git' brew packages need to be installed
-  # shellcheck source=/dev/null
-  source "$(brew --prefix)/etc/bash_completion.d/git-completion.bash"
-fi
-
-# t
-if [ -f "$(brew --prefix)/etc/bash_completion" ]; then
-  # shellcheck source=/dev/null
-  source "$(brew --prefix)/etc/bash_completion"
-fi
 
 for file in /usr/local/bin/{kubeadm,kubectl,kops}; do
   if [[ -x "${file}" ]]; then
