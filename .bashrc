@@ -100,3 +100,10 @@ if command -v gpg >/dev/null 2>&1; then
   # add alias for ssh to update the tty
   alias ssh="gpg-connect-agent updatestartuptty /bye >/dev/null; ssh"
 fi
+
+if [ -f /usr/local/opt/nvm/nvm.sh ]; then
+  mkdir -p "${HOME}/.nvm"
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
+fi
