@@ -4,14 +4,26 @@ builder_package="github.com/belak/base16-builder-go"
 base16_dir="${HOME}/.base16"
 theme="heetch"
 
+builder_bin="${GOPATH}/bin/base16-builder-go"
+
 install_builder() {
-  if [ ! -f "${GOPATH}/bin/base16-builder-go" ]; then
+  if ! command -v go >/dev/null; then
+    echo "go is not installed; cannot build builder"
+    exit 1
+  fi
+
+  if [ ! -f "${builder_bin}" ]; then
     go get "${builder_package}"
-    go build "${builder_package}"
+    go build -o "${builder_bin}" "${builder_package}"
   fi
 }
 
 run_builder() {
+  if [ ! -f "${builder_bin}" ]; then
+    echo "base16-builder-go is not installed; cannot build base16 themes"
+    exit 1
+  fi
+
   mkdir -p "${base16_dir}"
   cd "${base16_dir}"
 
@@ -23,8 +35,12 @@ run_builder() {
 
 configure_bash() {
   theme_script="${base16_dir}/templates/shell/scripts/base16-heetch.sh"
-  if ! grep -Fxq "${theme_script}" "${HOME}/.extra"; then
-    echo ". ${theme_script}" >> "${HOME}/.extra"
+  if ! grep -q "${theme_script}" "${HOME}/.extra"; then
+    cat <<EOF >> "${HOME}/.extra"
+if [[ -f ${theme_script} ]]; then
+  . ${theme_script}
+fi
+EOF
   fi
 }
 
