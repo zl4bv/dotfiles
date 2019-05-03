@@ -1,14 +1,5 @@
 #!/bin/bash
 
-# Heavily inspired by @mathiasbynens’s prompt: https://github.com/mathiasbynens/dotfiles
-
-# Set PS1_NOFANCY to disable the fancy prompt
-# Set PS1_NOSYMBOL to disable unicode symbols
-
-symbol_arrow1=${symbol_arrow1:-}
-symbol_arrow2=${symbol_arrow2:-}
-symbol_branch=${symbol_branch:-}
-
 if [[ $COLORTERM = gnome-* && $TERM = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
   export TERM='gnome-256color';
 elif infocmp xterm-256color >/dev/null 2>&1; then
@@ -67,45 +58,20 @@ _git_ps1() {
   fi;
 }
 
-_color_map() {
-  fg1=${1}
-  bg1=${2}
-  fg2=${3}
-  bg2=${4}
-}
+fg_color1="8"
+fg_color2="6"
+fg_color3="4"
 
-term_title() {
-  echo -ne "\\033]0;$*\\007"
-}
+seq_fg_color1="\\[$(tput setaf ${fg_color1})\\]"
+seq_fg_color2="\\[$(tput setaf ${fg_color2})\\]"
+seq_fg_color3="\\[$(tput setaf ${fg_color3})\\]"
+seq_reset="\\[$(tput sgr0)\\]"
 
-if [[ "${USER}" == "root" ]]; then
-  _color_map 232 214 232 202;
-elif [[ "${SSH_TTY}" ]]; then
-  _color_map 17 45 255 17;
-else
-  _color_map 17 190 255 238;
-fi;
+# shellcheck disable=SC2154
+seq_debian_chroot="${debian_chroot:+($debian_chroot)}"
+seq_user="\\u"
+seq_host="\\h"
+seq_workdir="\\w"
+seq_vcs=" %s"
 
-if [ -n "${PS1_NOSYMBOL}" ]; then
-  symbol_arrow1=''
-  symbol_arrow2=''
-  symbol_branch=''
-fi
-
-if [[ "$OSTYPE" == "darwin"* ]]; then
-  symbol_branch=''
-fi
-vcs_fmtstr=" ${symbol_branch}%s "
-
-# if [ -z "${PS1_NOFANCY}" ]; then
-#   PS1="\\[$(tput setaf "$fg1")\\]\\[$(tput setab "$bg1")\\]"
-#   # shellcheck disable=SC2154
-#   PS1+=" ${debian_chroot:+($debian_chroot)}\\W "
-#   PS1+="\\[$(tput setaf "$bg1")\\]\\[$(tput setab "$bg2")\\]${symbol_arrow1}\\[$(tput setaf "$fg2")\\]\\[$(tput setab "$bg2")\\]"
-#   PS1+="\$(__git_ps1 \"${vcs_fmtstr}\" 2>/dev/null || _git_ps1 \"${vcs_fmtstr}\")"
-#   PS1+="\\[$(tput sgr0)\\]\\[$(tput setaf "$bg2")\\]\$${symbol_arrow1}\\[$(tput sgr0)\\] "
-# else
-  PS1="${debian_chroot:+($debian_chroot)}\\u@\\h:\\w\$ "
-# fi
-
-PS1="\\[\\e]0;\\W\\a\\]$PS1"
+PS1="${seq_reset}${seq_fg_color1}${seq_debian_chroot}${seq_user}@${seq_host}:${seq_fg_color3}${seq_workdir} ${seq_fg_color2}\$(_git_ps1 \"${seq_vcs}\")${seq_fg_color1}\n\$${seq_reset} "

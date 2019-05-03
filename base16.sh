@@ -25,7 +25,7 @@ run_builder() {
   fi
 
   mkdir -p "${base16_dir}"
-  cd "${base16_dir}"
+  cd "${base16_dir}" || exit 1
 
   if [[ ! -d "sources" ]]; then
     base16-builder-go update
@@ -34,7 +34,7 @@ run_builder() {
 }
 
 configure_bash() {
-  theme_script="${base16_dir}/templates/shell/scripts/base16-heetch.sh"
+  theme_script="${base16_dir}/templates/shell/scripts/base16-${theme}.sh"
   if ! grep -q "${theme_script}" "${HOME}/.extra"; then
     cat <<EOF >> "${HOME}/.extra"
 if [[ -f ${theme_script} ]]; then

@@ -104,6 +104,8 @@ fi
 if [ -f /usr/local/opt/nvm/nvm.sh ]; then
   mkdir -p "${HOME}/.nvm"
   export NVM_DIR="$HOME/.nvm"
+  # shellcheck disable=SC1091
   [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+  # shellcheck disable=SC1091
   [ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
 fi
