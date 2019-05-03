@@ -74,4 +74,4 @@ seq_host="\\h"
 seq_workdir="\\w"
 seq_vcs=" %s"
 
-PS1="${seq_reset}${seq_fg_color1}${seq_debian_chroot}${seq_user}@${seq_host}:${seq_fg_color3}${seq_workdir} ${seq_fg_color2}\$(_git_ps1 \"${seq_vcs}\")${seq_fg_color1}\n\$${seq_reset} "
+PS1="${seq_reset}${seq_fg_color1}${seq_debian_chroot}${seq_user}@${seq_host}:${seq_fg_color3}${seq_workdir} ${seq_fg_color2}\$(_git_ps1 \"${seq_vcs}\")${seq_fg_color1}\\n\$${seq_reset} "
