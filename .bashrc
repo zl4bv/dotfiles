@@ -109,3 +109,14 @@ if [ -f /usr/local/opt/nvm/nvm.sh ]; then
   # shellcheck disable=SC1091
   [ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
 fi
+
+getcsp() {
+  local url=${1}
+  local red=$(tput setaf 1)
+  local reset=$(tput sgr0)
+  if [[ -z "${url}" ]]; then
+    echo "Usage: getcsp url" >&2
+    return
+  fi
+  curl -sv ${url} 2>&1 | grep content-security-policy | awk '{gsub(/^< /,"")}1' | awk '{gsub(/content-security-policy(-report-only)?:/,"")}1' | awk '{gsub(/;/,";\n")}1' | sed -E "s/^ [a-z-]+/${red}&${reset}/g"
+}
