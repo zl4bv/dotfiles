@@ -125,5 +125,5 @@ getcsp() {
     return
   fi
   echo "${header}" | grep -oE "content-security-policy(-report-only)?" | awk '{if ($0 == "content-security-policy-report-only") {print "report"} else {print "enforce"}}' | sed -E "s/^[a-z]+/${red}disposition${reset} &/g"
-  echo "${header}" | awk '{gsub(/content-security-policy(-report-only)?:/,"")}1' | awk '{gsub(/;/,";\n")}1' | sed -E "s/^ [a-z-]+/${green}&${reset}/g"
+  echo "${header}" | awk '{gsub(/content-security-policy(-report-only)?: ?/,"")}1' | awk '{gsub(/; /,";\n")}1' | sed -E "s/^[a-z-]+/${green}&${reset}/g"
 }
