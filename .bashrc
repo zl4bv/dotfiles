@@ -113,10 +113,17 @@ fi
 getcsp() {
   local url=${1}
   local red=$(tput setaf 1)
+  local green=$(tput setaf 2)
   local reset=$(tput sgr0)
   if [[ -z "${url}" ]]; then
     echo "Usage: getcsp url" >&2
     return
   fi
-  curl -sv ${url} 2>&1 | grep content-security-policy | awk '{gsub(/^< /,"")}1' | awk '{gsub(/content-security-policy(-report-only)?:/,"")}1' | awk '{gsub(/;/,";\n")}1' | sed -E "s/^ [a-z-]+/${red}&${reset}/g"
+  local header=$(curl -sv ${url} 2>&1 | grep content-security-policy | awk '{gsub(/^< /,"")}1')
+  if [[ -z "${header}" ]]; then
+    echo "CSP header not present" >&1
+    return
+  fi
+  echo "${header}" | grep -oE "content-security-policy(-report-only)?" | awk "{if ($0 == "content-security-policy-report-only") {print \"${red} disposition${reset} report\"} else {print \"${red} disposition${reset} enforce\"}}"
+  echo "${header}" | awk '{gsub(/content-security-policy(-report-only)?:/,"")}1' | awk '{gsub(/;/,";\n")}1' | sed -E "s/^ [a-z-]+/${green}&${reset}/g"
 }
