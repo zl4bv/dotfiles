@@ -12,5 +12,5 @@ terraform(){
         -e AWS_SESSION_TOKEN \
         -e AWS_SECRET_ACCESS_KEY \
         -e AWS_ACCESS_KEY_ID \
-        r.j3ss.co/terraform -- "$@"
+        r.j3ss.co/terraform "$@"
 }
