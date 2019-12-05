@@ -52,6 +52,9 @@ if ! shopt -oq posix; then
   elif [[ -f ${prefix}/etc/bash_completion ]]; then
     # shellcheck source=/dev/null
     source "${prefix}/etc/bash_completion"
+  elif [[ -f "/usr/local/etc/profile.d/bash_completion.sh" ]]; then
+    # shellcheck source=/dev/null
+    source "/usr/local/etc/profile.d/bash_completion.sh"
   fi
 fi
 
