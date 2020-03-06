@@ -140,3 +140,36 @@ getcsp() {
   unset reset
   unset header
 }
+
+repeat() {
+  cmd=${@}
+  repeatinterval=${repeatinterval:-1}
+  TIMEFORMAT=%R
+  while true; do
+    unset t_std t_err
+    eval "$( (time sh -c "${cmd}") \
+      2> >(t_err=$(cat); typeset -p t_err) \
+       > >(t_std=$(cat); typeset -p t_std) )"
+    echo "[$(date +"%T %Z")][${t_err}s] ${t_std}"
+    sleep "${repeatinterval}"
+  done
+  unset TIMEFORMAT
+}
+
+certsans() {
+  target=${1}
+  if [[ "${target}" == "" ]]; then
+    echo "Usage: certsans host:port" >&2
+    return
+  fi
+  echo "QUIT" | openssl s_client -connect "${target}" 2>&1 | openssl x509 -noout -text | grep "DNS:" | sed "s/DNS://g" | awk '{$1=$1};1'
+}
+
+certocspuri() {
+  target=${1}
+  if [[ "${target}" == "" ]]; then
+    echo "Usage: certocspuri host:port" >&2
+    return
+  fi
+  echo "QUIT" | openssl s_client -connect "${target}" 2>&1 | openssl x509 -noout -ocsp_uri
+}
