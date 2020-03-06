@@ -127,9 +127,11 @@ getcsp() {
     echo "Usage: getcsp url" >&2
     return
   fi
-  header=$(curl -sv "${url}" 2>&1 | grep content-security-policy | awk '{gsub(/^< /,"")}1')
+  resp=$(curl -sv "${url}" 2>&1)
+  header=$(echo "${resp}" | grep content-security-policy | awk '{gsub(/^< /,"")}1')
   if [[ -z "${header}" ]]; then
-    echo "CSP header not present" >&1
+    echo "CSP header not present. There might be a reason in the following output: " >&2
+    echo "${resp}" | grep --color=never "^*\|<\|>"
     return
   fi
   echo "${header}" | grep -oE "content-security-policy(-report-only)?" | awk '{if ($0 == "content-security-policy-report-only") {print "report"} else {print "enforce"}}' | sed -E "s/^[a-z]+/${red}disposition${reset} &/g"
