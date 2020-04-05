@@ -128,7 +128,7 @@ getcsp() {
     return
   fi
   resp=$(curl -sv "${url}" 2>&1)
-  header=$(echo "${resp}" | grep content-security-policy | awk '{gsub(/^< /,"")}1')
+  header=$(echo "${resp}" | grep -i content-security-policy | awk '{gsub(/^< /,"")}1')
   if [[ -z "${header}" ]]; then
     echo "CSP header not present. There might be a reason in the following output: " >&2
     echo "${resp}" | grep --color=never "^*\|<\|>"
