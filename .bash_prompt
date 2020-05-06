@@ -58,9 +58,9 @@ _git_ps1() {
   fi;
 }
 
-fg_color1="8"
-fg_color2="6"
-fg_color3="4"
+fg_color1="5"
+fg_color2="4"
+fg_color3="2"
 
 seq_fg_color1="\\[$(tput setaf ${fg_color1})\\]"
 seq_fg_color2="\\[$(tput setaf ${fg_color2})\\]"
