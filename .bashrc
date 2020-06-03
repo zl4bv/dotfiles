@@ -164,7 +164,7 @@ certsans() {
     echo "Usage: certsans host:port" >&2
     return
   fi
-  echo "QUIT" | openssl s_client -connect "${target}" 2>&1 | openssl x509 -noout -text | grep "DNS:" | sed "s/DNS://g" | awk '{$1=$1};1'
+  echo "QUIT" | openssl s_client -servername "$(echo $target | cut -d':' -f1)" -connect "${target}" 2>&1 | openssl x509 -noout -text | grep "DNS:" | sed "s/DNS://g" | awk '{$1=$1};1'
 }
 
 certocspuri() {
