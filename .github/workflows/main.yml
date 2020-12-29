@@ -15,6 +15,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     container: { image: r.j3ss.co/shellcheck }
-    steps:  
+    steps:
+    - uses: actions/checkout@v2
     - name: ShellCheck
-      run: /bin/bash ./test.sh
+      run: /test.sh
