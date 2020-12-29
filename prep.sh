@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-if [[ "$OSTYPE" == "darwin"* ]]; then
+if [ "$OSTYPE" == "darwin"* ]; then
   # accept xcode license to enable git usage
   sudo xcodebuild -license accept
 
@@ -10,4 +10,5 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   fi
 
   brew install bash-completion
+  brew install zsh-completion
 fi

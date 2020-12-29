@@ -1,0 +1,11 @@
+#!/bin/sh
+
+target=${1}
+if [ -z "${target}" ]; then
+echo "Usage: certsans host:port" >&2
+return
+fi
+if [ "${target}" = "$(echo $target | cut -d':' -f2)" ]; then
+target="${target}:443"
+fi
+echo "QUIT" | openssl s_client -servername "$(echo $target | cut -d':' -f1)" -connect "${target}" 2>&1 | openssl x509 -noout -text | grep "DNS:" | sed "s/DNS://g" | awk '{$1=$1};1'

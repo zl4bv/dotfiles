@@ -1,3 +1,5 @@
+#!/bin/sh
+
 shellcheck(){
     docker run -it --rm \
 	-v $(pwd):/usr/src:ro \

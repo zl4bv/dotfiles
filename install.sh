@@ -1,28 +1,50 @@
-#!/bin/bash
+#!/bin/sh
 
-CURDIR=$(pwd)
+DOTFILESDIR=$(pwd)
+
+echo -n "${DOTFILESDIR}" > $HOME/.dotfiles_path
+
+# Remove legacy symlinks
+if [ -n "${ZL4BV_TIDY}" ]; then
+  [ -L "${HOME}/.aliases" ] && rm -f "${HOME}/.aliases"
+  [ -L "${HOME}/.bash_profile" ] && rm -f "${HOME}/.bash_profile"
+  [ -L "${HOME}/.bash_prompt" ] && rm -f "${HOME}/.bash_prompt"
+  [ -L "${HOME}/.bashrc" ] && rm -f "${HOME}/.bashrc"
+  [ -L "${HOME}/.dockerfunc" ] && rm -f "${HOME}/.dockerfunc"
+  [ -L "${HOME}/.exports" ] && rm -f "${HOME}/.exports"
+  [ -L "${HOME}/.gitconfig" ] && rm -f "${HOME}/.gitconfig"
+  [ -L "${HOME}/.gnupg/gpg-agent.conf" ] && rm -f "${HOME}/.gnupg/gpg-agent.conf"
+  [ -L "${HOME}/.gnupg/gpg.conf" ] && rm -f "${HOME}/.gnupg/gpg.conf"
+  [ -L "${HOME}/.path" ] && rm -f "${HOME}/.path"
+fi
 
 # configure git
-#ln -fn ${CURDIR}/.gitignore ${HOME}/.gitignore;
-git update-index --skip-worktree "${CURDIR}/.gitconfig"
+ln -sfn "${DOTFILESDIR}/git/.gitattributes" "${HOME}/.gitattributes"
+ln -sfn "${DOTFILESDIR}/git/.gitconfig" "${HOME}/.gitconfig"
+if [ ! -e "${HOME}/.gitconfig.local" ]; then
+  cat > "${HOME}/.gitconfig.local" <<-EOF
+#[user]
+#  name = Ben Vidulich
+#  email = ben@vidulich.nz
+EOF
+fi
 
-# add aliases for dotfiles
-# shellcheck disable=SC2044
-for file in $(find "${CURDIR}" -name ".*" -not -name ".gitignore" -not -name ".travis.yml" -not -name ".git" -not -name ".*.swp" -not -name ".gnupg" -not -name ".iterm2"); do
-  f=$(basename "${file}")
-  ln -sfn "${file}" "${HOME}/${f}"
-done
+# configure bash
+if [ -f /bin/bash ]; then
+  ln -sfn "${DOTFILESDIR}/shell/bash/bashrc.sh" "${HOME}/.bashrc"
+  ln -sfn "${DOTFILESDIR}/shell/bash/bash_profile.sh" "${HOME}/.bash_profile"
+  touch "${HOME}/.bash_extra"
+fi
 
-# configure gnupg
-if command -v gpg >/dev/null 2>&1; then
-  gpg --list-keys || true
-  mkdir -p "${CURDIR}/.gnupg"
-  ln -sfn "${CURDIR}/.gnupg/gpg.conf" "${HOME}/.gnupg/gpg.conf"
-  ln -sfn "${CURDIR}/.gnupg/gpg-agent.conf" "${HOME}/.gnupg/gpg-agent.conf"
+# configure zsh
+if [ -f /bin/zsh ]; then
+  ln -sfn "${DOTFILESDIR}/shell/zsh/zshrc.zsh" "${HOME}/.zshrc"
+  ln -sfn "${DOTFILESDIR}/shell/zsh/zlogin.zsh" "${HOME}/.zlogin"
+  touch "${HOME}/.zsh_extra"
 fi
 
 # configure iterm2
-if [[ "${OSTYPE}" == "darwin"* ]]; then
+if [ "${OSTYPE}" = "darwin"* ]; then
   mkdir -p "${HOME}/.iterm2"
-  ln -sfn "${CURDIR}/.iterm2/com.googlecode.iterm2.plist" "${HOME}/.iterm2/com.googlecode.iterm2.plist"
+  ln -sfn "${DOTFILESDIR}/.iterm2/com.googlecode.iterm2.plist" "${HOME}/.iterm2/com.googlecode.iterm2.plist"
 fi

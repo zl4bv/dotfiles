@@ -1,14 +1,14 @@
 #!/bin/bash
 
+DOTFILESDIR=$(cat "${HOME}/.dotfiles_path")
+
 if [[ "${OSTYPE}" == "darwin"* ]] && [[ -r "${HOME}/.bashrc" ]]; then
   # shellcheck source=/dev/null
   . "${HOME}/.bashrc"
 fi
 
 # Load the shell dotfiles, and then some:
-# * ~/.path can be used to extend `$PATH`.
-# * ~/.extra can be used for other settings you don’t want to commit.
-for file in ~/.{bash_prompt,aliases,functions,path,dockerfunc,extra,exports}; do
+for file in $HOME/.bash_extra ${DOTFILESDIR}/shell/bash/bash_prompt.sh ${DOTFILESDIR}/shell/_common/*.sh; do
   if [[ -r "${file}" ]] && [[ -f "${file}" ]]; then
     # shellcheck source=/dev/null
     source "${file}"

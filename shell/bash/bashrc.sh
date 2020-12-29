@@ -73,6 +73,7 @@ fi
 
 unset prefix
 
+# Configure kubernetes
 for file in /usr/local/bin/{kubeadm,kubectl,kops}; do
   if [[ -x "${file}" ]]; then
     # shellcheck source=/dev/null
@@ -81,29 +82,7 @@ for file in /usr/local/bin/{kubeadm,kubectl,kops}; do
 done
 unset file
 
-if command -v gpg >/dev/null 2>&1; then
-  # use a tty for gpg
-  # solves error: "gpg: signing failed: Inappropriate ioctl for device"
-  GPG_TTY="$(tty)"
-  export GPG_TTY
-
-  # Start the gpg-agent if not already running
-  if ! pgrep -x -u "${USER}" gpg-agent >/dev/null 2>&1; then
-    gpg-connect-agent /bye >/dev/null 2>&1
-    gpg-connect-agent updatestartuptty /bye >/dev/null
-  fi
-
-  # Set SSH to use gpg-agent
-  unset SSH_AGENT_PID
-  if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
-    SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-    export SSH_AUTH_SOCK
-  fi
-
-  # add alias for ssh to update the tty
-  alias ssh="gpg-connect-agent updatestartuptty /bye >/dev/null; ssh"
-fi
-
+# Configure nodejs/nvm
 if [ -f /usr/local/opt/nvm/nvm.sh ]; then
   mkdir -p "${HOME}/.nvm"
   export NVM_DIR="$HOME/.nvm"
@@ -113,70 +92,7 @@ if [ -f /usr/local/opt/nvm/nvm.sh ]; then
   [ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
 fi
 
-getcsp() {
-  local url
-  local red
-  local green
-  local reset
-  local header
-  url=${1}
-  red=$(tput setaf 1)
-  green=$(tput setaf 2)
-  reset=$(tput sgr0)
-  if [[ -z "${url}" ]]; then
-    echo "Usage: getcsp url" >&2
-    return
-  fi
-  resp=$(curl -sv "${url}" 2>&1)
-  header=$(echo "${resp}" | grep -i content-security-policy | awk '{gsub(/^< /,"")}1')
-  if [[ -z "${header}" ]]; then
-    echo "CSP header not present. There might be a reason in the following output: " >&2
-    echo "${resp}" | grep --color=never "^*\|<\|>"
-    return
-  fi
-  echo "${header}" | grep -oE "content-security-policy(-report-only)?" | awk '{if ($0 == "content-security-policy-report-only") {print "report"} else {print "enforce"}}' | sed -E "s/^[a-z]+/${red}disposition${reset} &/g"
-  echo "${header}" | awk '{gsub(/[Cc]ontent-[Ss]ecurity-[Pp]olicy(-[Rr]eport-[Oo]nly)?: ?/,"")}1' | awk '{gsub(/; */,";\n")}1' | sed -E "s/^[a-z-]+/${green}&${reset}/g" | sort
-  unset url
-  unset red
-  unset green
-  unset reset
-  unset header
-}
-
-repeat() {
-  cmd=${@}
-  repeatinterval=${repeatinterval:-1}
-  TIMEFORMAT=%R
-  while true; do
-    unset t_std t_err
-    eval "$( (time sh -c "${cmd}") \
-      2> >(t_err=$(cat); typeset -p t_err) \
-       > >(t_std=$(cat); typeset -p t_std) )"
-    echo "[$(date +"%T %Z")][${t_err}s] ${t_std}"
-    sleep "${repeatinterval}"
-  done
-  unset TIMEFORMAT
-}
-
-certsans() {
-  local target
-  target=${1}
-  if [[ "${target}" == "" ]]; then
-    echo "Usage: certsans host:port" >&2
-    return
-  fi
-  if [[ "${target}" == "$(echo $target | cut -d':' -f2)" ]]; then
-    target="${target}:443"
-  fi
-  echo "QUIT" | openssl s_client -servername "$(echo $target | cut -d':' -f1)" -connect "${target}" 2>&1 | openssl x509 -noout -text | grep "DNS:" | sed "s/DNS://g" | awk '{$1=$1};1'
-  unset target
-}
-
-certocspuri() {
-  target=${1}
-  if [[ "${target}" == "" ]]; then
-    echo "Usage: certocspuri host:port" >&2
-    return
-  fi
-  echo "QUIT" | openssl s_client -connect "${target}" 2>&1 | openssl x509 -noout -ocsp_uri
-}
+# Configure rust/cargo
+if [ -f "${HOME}/.cargo/env" ]; then
+  source "${HOME}/.cargo/env"
+fi

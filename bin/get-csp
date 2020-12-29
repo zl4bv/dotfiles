@@ -1,0 +1,19 @@
+#!/bin/sh
+
+url=${1}
+red=$(tput setaf 1)
+green=$(tput setaf 2)
+reset=$(tput sgr0)
+if [ -z "${url}" ]; then
+echo "Usage: getcsp url" >&2
+return
+fi
+resp=$(curl -sv "${url}" 2>&1)
+header=$(echo "${resp}" | grep -i content-security-policy | awk '{gsub(/^< /,"")}1')
+if [[ -z "${header}" ]]; then
+echo "CSP header not present. There might be a reason in the following output: " >&2
+echo "${resp}" | grep --color=never "^*\|<\|>"
+return
+fi
+echo "${header}" | grep -oE "content-security-policy(-report-only)?" | awk '{if ($0 == "content-security-policy-report-only") {print "report"} else {print "enforce"}}' | sed -E "s/^[a-z]+/${red}disposition${reset} &/g"
+echo "${header}" | awk '{gsub(/[Cc]ontent-[Ss]ecurity-[Pp]olicy(-[Rr]eport-[Oo]nly)?: ?/,"")}1' | awk '{gsub(/; */,";\n")}1' | sed -E "s/^[a-z-]+/${green}&${reset}/g" | sort
