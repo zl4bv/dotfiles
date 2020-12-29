@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Make vim the default editor
 export EDITOR=/usr/bin/vim;
@@ -16,6 +16,7 @@ export LANG="en_US.UTF-8";
 export LC_ALL="en_US.UTF-8";
 
 if [ -f /usr/libexec/java_home ]; then
-  export JAVA_HOME=$(/usr/libexec/java_home)
+  JAVA_HOME=$(/usr/libexec/java_home)
+  export JAVA_HOME
 fi
 

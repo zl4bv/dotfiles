@@ -2,7 +2,7 @@
 
 DOTFILESDIR=$(pwd)
 
-echo -n "${DOTFILESDIR}" > $HOME/.dotfiles_path
+printf '%s' "${DOTFILESDIR}" > "${HOME}/.dotfiles_path"
 
 # Remove legacy symlinks
 if [ -n "${ZL4BV_TIDY}" ]; then

@@ -8,7 +8,7 @@ if [[ "${OSTYPE}" == "darwin"* ]] && [[ -r "${HOME}/.bashrc" ]]; then
 fi
 
 # Load the shell dotfiles, and then some:
-for file in $HOME/.bash_extra ${DOTFILESDIR}/shell/bash/bash_prompt.sh ${DOTFILESDIR}/shell/_common/*.sh; do
+for file in $HOME/.bash_extra "${DOTFILESDIR}"/shell/bash/bash_prompt.sh "${DOTFILESDIR}"/shell/_common/*.sh; do
   if [[ -r "${file}" ]] && [[ -f "${file}" ]]; then
     # shellcheck source=/dev/null
     source "${file}"

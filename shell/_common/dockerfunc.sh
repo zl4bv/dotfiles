@@ -2,14 +2,14 @@
 
 shellcheck(){
     docker run -it --rm \
-	-v $(pwd):/usr/src:ro \
+	-v "$(pwd):/usr/src:ro" \
 	-w /usr/src \
 	r.j3ss.co/shellcheck shellcheck "$@"
 }
 
 terraform(){
     docker run -it --rm \
-        -v $(pwd):/tf \
+        -v "$(pwd):/tf" \
         -w /tf \
         -e AWS_SESSION_TOKEN \
         -e AWS_SECRET_ACCESS_KEY \
