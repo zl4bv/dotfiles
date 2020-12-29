@@ -1,6 +1,8 @@
 #!/bin/zsh
 
-if command -v starship >/dev/null 2>&1; then
+if [ -f "${HOME}/.cargo/bin/starship" ]; then
+  eval "$(${HOME}/.cargo/bin/starship init zsh)"
+elif command -v starship >/dev/null 2>&1; then
   eval "$(starship init zsh)"
   return
 fi

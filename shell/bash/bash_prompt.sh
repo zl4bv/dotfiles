@@ -8,7 +8,9 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
   export TERM='xterm-256color'
 fi;
 
-if command -v starship >/dev/null 2>&1; then
+if [ -f "${HOME}/.cargo/bin/starship" ]; then
+  eval "$(${HOME}/.cargo/bin/starship init bash)"
+elif command -v starship >/dev/null 2>&1; then
   eval "$(starship init bash)"
   return
 fi

@@ -6,11 +6,12 @@ DOTFILESDIR=$(cat "${HOME}/.dotfiles_path")
 export PATH="${PATH}:${DOTFILESDIR}/bin"
 
 # go path
-export GOPATH="${HOME}/go"
+[ -d "${HOME}/go" ] && export GOPATH="${HOME}/go"
+[ -d "${HOME}/go/bin" ] && export PATH="${PATH}:${GOPATH}/bin"
 
-# update path for go binaries
-export PATH="${PATH}:${GOPATH}/bin"
+# cargo path
+[ -d "${HOME}/.cargo/bin" ] && export PATH="${PATH}:${HOME}/.cargo/bin"
 
 # update path for VS code
-export PATH="${PATH}:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-export PATH="${PATH}:/Applications/Visual Studio Code - Insiders.app/Contents/Resources/app/bin"
+[ -d "/Applications/Visual Studio Code.app" ] && export PATH="${PATH}:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+[ -d "/Applications/Visual Studio Code - Insiders.app" ] && export PATH="${PATH}:/Applications/Visual Studio Code - Insiders.app/Contents/Resources/app/bin"
