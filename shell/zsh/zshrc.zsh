@@ -3,7 +3,7 @@
 DOTFILESDIR=$(cat "${HOME}/.dotfiles_path")
 
 # Load the shell dotfiles, and then some:
-for file in $HOME/.zsh_extra ${DOTFILESDIR}/shell/zsh/zshprompt.sh ${DOTFILESDIR}/shell/_common/*.sh; do
+for file in $HOME/.zsh_extra ${DOTFILESDIR}/shell/zsh/zshprompt.zsh ${DOTFILESDIR}/shell/_common/*.sh; do
   if [[ -r "${file}" ]] && [[ -f "${file}" ]]; then
     # shellcheck source=/dev/null
     source "${file}"
