@@ -17,4 +17,4 @@ jobs:
     container: { image: r.j3ss.co/shellcheck }
     steps:  
     - name: ShellCheck
-      run: ./test.sh
+      run: /bin/bash ./test.sh
