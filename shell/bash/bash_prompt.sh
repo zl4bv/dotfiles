@@ -9,7 +9,8 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
 fi;
 
 if [ -f "${HOME}/.cargo/bin/starship" ]; then
-  eval "$(${HOME}/.cargo/bin/starship init bash)"
+  eval "$("${HOME}"/.cargo/bin/starship init bash)"
+  return
 elif command -v starship >/dev/null 2>&1; then
   eval "$(starship init bash)"
   return

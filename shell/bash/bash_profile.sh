@@ -26,3 +26,6 @@ shopt -s histappend
   -W "$(grep "^Host" ~/.ssh/config | \
   grep -v "[?*]" | cut -d " " -f2 | \
   tr ' ' '\n')" scp sftp ssh
+
+# Hide any failures above from prompts that check exit code
+[[ -f /bin/true ]] && /bin/true
