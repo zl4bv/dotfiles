@@ -1,14 +1,20 @@
 #!/bin/sh
 
-if [ "$OSTYPE" == "darwin"* ]; then
-  # accept xcode license to enable git usage
-  sudo xcodebuild -license accept
+# shellcheck disable=SC2039
+case "${OSTYPE}" in
+  darwin*)
+    # accept xcode license to enable git usage
+    sudo xcodebuild -license accept
 
-  # install homebrew
-  if ! command -v gpg >/dev/null 2>&1; then
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-  fi
+    # install homebrew
+    if ! command -v gpg >/dev/null 2>&1; then
+      /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    fi
 
-  brew install bash-completion
-  brew install zsh-completion
-fi
+    brew install bash-completion
+    brew install zsh-completion
+    ;;
+
+  *)
+    ;;
+esac

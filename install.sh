@@ -43,8 +43,15 @@ if [ -f /bin/zsh ]; then
   touch "${HOME}/.zsh_extra"
 fi
 
-# configure iterm2
-if [ "${OSTYPE}" = "darwin"* ]; then
-  mkdir -p "${HOME}/.iterm2"
-  ln -sfn "${DOTFILESDIR}/.iterm2/com.googlecode.iterm2.plist" "${HOME}/.iterm2/com.googlecode.iterm2.plist"
-fi
+# shellcheck disable=SC2039
+case "${OSTYPE}" in
+  darwin*)
+    # configure iterm2
+    mkdir -p "${HOME}/.iterm2"
+    ln -sfn "${DOTFILESDIR}/.iterm2/com.googlecode.iterm2.plist" "${HOME}/.iterm2/com.googlecode.iterm2.plist"
+    ;;
+
+  *)
+    ;;
+esac
+
