@@ -2,6 +2,9 @@
 
 DOTFILESDIR=$(cat "${HOME}/.dotfiles_path")
 
+autoload -Uz compinit
+compinit
+
 # Load the shell dotfiles, and then some:
 for file in $HOME/.zsh_extra ${DOTFILESDIR}/shell/zsh/zshprompt.zsh ${DOTFILESDIR}/shell/_common/*.sh; do
   if [[ -r "${file}" ]] && [[ -f "${file}" ]]; then
@@ -17,8 +20,6 @@ fi
 
 if [[ -f "{prefix}/share/zsh-completions" ]]; then
   FPATH="$(brew --prefix)/share/zsh-completions:${FPATH}"
-  autoload -Uz compinit
-  compinit
 fi
 
 unset prefix
