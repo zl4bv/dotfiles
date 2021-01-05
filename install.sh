@@ -28,13 +28,13 @@ GITEMAIL="$(git config --get user.email)"
 
 if [ -z "${GITUSER}" ]; then
   printf '%s ' 'What is your name (for git)?'
-  read GITUSER
+  read -r GITUSER
   git config --file "${HOME}/.gitconfig.local" user.name "${GITUSER}"
 fi
 
 if [ -z "${GITEMAIL}" ]; then
   printf '%s ' 'What is your email address (for git)?'
-  read GITEMAIL
+  read -r GITEMAIL
   git config --file "${HOME}/.gitconfig.local" user.email "${GITEMAIL}"
 fi
 
