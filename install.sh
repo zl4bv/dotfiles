@@ -21,12 +21,21 @@ fi
 # configure git
 ln -sfn "${DOTFILESDIR}/git/.gitattributes" "${HOME}/.gitattributes"
 ln -sfn "${DOTFILESDIR}/git/.gitconfig" "${HOME}/.gitconfig"
-if [ ! -e "${HOME}/.gitconfig.local" ]; then
-  cat > "${HOME}/.gitconfig.local" <<-EOF
-#[user]
-#  name = Ben Vidulich
-#  email = ben@vidulich.nz
-EOF
+touch "${HOME}/.gitconfig.local"
+
+GITUSER="$(git config --get user.name)"
+GITEMAIL="$(git config --get user.email)"
+
+if [ -z "${GITUSER}" ]; then
+  printf '%s ' 'What is your name (for git)?'
+  read GITUSER
+  git config --file "${HOME}/.gitconfig.local" user.name "${GITUSER}"
+fi
+
+if [ -z "${GITEMAIL}" ]; then
+  printf '%s ' 'What is your email address (for git)?'
+  read GITEMAIL
+  git config --file "${HOME}/.gitconfig.local" user.email "${GITEMAIL}"
 fi
 
 # configure bash
