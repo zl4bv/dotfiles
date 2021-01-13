@@ -16,6 +16,7 @@ if [ -n "${ZL4BV_TIDY}" ]; then
   [ -L "${HOME}/.gnupg/gpg-agent.conf" ] && rm -f "${HOME}/.gnupg/gpg-agent.conf"
   [ -L "${HOME}/.gnupg/gpg.conf" ] && rm -f "${HOME}/.gnupg/gpg.conf"
   [ -L "${HOME}/.path" ] && rm -f "${HOME}/.path"
+  [ -L "${HOME}/.config/starship.toml" ] && rm -f "${HOME}/.config/starship.toml"
 fi
 
 # configure git
@@ -63,4 +64,8 @@ case "${OSTYPE}" in
   *)
     ;;
 esac
+
+# configure starship
+mkdir -p "${HOME}/.config"
+ln -sfn "${DOTFILESDIR}/starship/starship.toml" "${HOME}/.config/starship.toml"
 
