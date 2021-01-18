@@ -16,17 +16,27 @@ if [ -n "${ZL4BV_TIDY}" ]; then
   [ -L "${HOME}/.gnupg/gpg-agent.conf" ] && rm -f "${HOME}/.gnupg/gpg-agent.conf"
   [ -L "${HOME}/.gnupg/gpg.conf" ] && rm -f "${HOME}/.gnupg/gpg.conf"
   [ -L "${HOME}/.path" ] && rm -f "${HOME}/.path"
+  [ -L "${HOME}/.config/starship.toml" ] && rm -f "${HOME}/.config/starship.toml"
 fi
 
 # configure git
 ln -sfn "${DOTFILESDIR}/git/.gitattributes" "${HOME}/.gitattributes"
 ln -sfn "${DOTFILESDIR}/git/.gitconfig" "${HOME}/.gitconfig"
-if [ ! -e "${HOME}/.gitconfig.local" ]; then
-  cat > "${HOME}/.gitconfig.local" <<-EOF
-#[user]
-#  name = Ben Vidulich
-#  email = ben@vidulich.nz
-EOF
+touch "${HOME}/.gitconfig.local"
+
+GITUSER="$(git config --get user.name)"
+GITEMAIL="$(git config --get user.email)"
+
+if [ -z "${GITUSER}" ]; then
+  printf '%s ' 'What is your name (for git)?'
+  read -r GITUSER
+  git config --file "${HOME}/.gitconfig.local" user.name "${GITUSER}"
+fi
+
+if [ -z "${GITEMAIL}" ]; then
+  printf '%s ' 'What is your email address (for git)?'
+  read -r GITEMAIL
+  git config --file "${HOME}/.gitconfig.local" user.email "${GITEMAIL}"
 fi
 
 # configure bash
@@ -54,4 +64,8 @@ case "${OSTYPE}" in
   *)
     ;;
 esac
+
+# configure starship
+mkdir -p "${HOME}/.config"
+ln -sfn "${DOTFILESDIR}/starship/starship.toml" "${HOME}/.config/starship.toml"
 
