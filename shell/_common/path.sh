@@ -8,6 +8,7 @@ export PATH="${PATH}:${DOTFILESDIR}/bin"
 # go path
 [ -d "${HOME}/go" ] && export GOPATH="${HOME}/go"
 [ -d "${HOME}/go/bin" ] && export PATH="${PATH}:${GOPATH}/bin"
+[ -d /usr/local/go/bin ] && export PATH="${PATH}:/usr/local/go/bin"
 
 # cargo path
 [ -d "${HOME}/.cargo/bin" ] && export PATH="${PATH}:${HOME}/.cargo/bin"
