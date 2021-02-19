@@ -19,6 +19,10 @@
 	trustctime = false
 	editor = vim
 
+[init]
+
+	defaultBranch = main
+
 [color]
 
 	# Use colors in Git commands that are capable of colored output when
