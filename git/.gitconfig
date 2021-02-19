@@ -36,7 +36,7 @@
 
 [include]
 
-    path = ~/.gitconfig.local
+	path = ~/.gitconfig.local
 
 [url "https://invent.kde.org/"]
 
