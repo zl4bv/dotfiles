@@ -11,8 +11,17 @@ case "${OSTYPE}" in
       /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     fi
 
+    # install completion packages
     brew install bash-completion
     brew install zsh-completion
+
+    # install starship
+    brew install starship
+    ;;
+
+  linux*)
+    # install starship
+    curl -fsSL https://starship.rs/install.sh | bash
     ;;
 
   *)
