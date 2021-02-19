@@ -35,4 +35,13 @@
 	autocorrect = 1
 
 [include]
+
     path = ~/.gitconfig.local
+
+[url "https://invent.kde.org/"]
+
+	insteadOf = kde:
+
+[url "ssh://git@invent.kde.org/"]
+
+	pushInsteadOf = kde:
