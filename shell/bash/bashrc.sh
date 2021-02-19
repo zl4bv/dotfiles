@@ -1,6 +1,8 @@
 #!/bin/bash
 # ~/.bashrc: executed by bash(1) for non-login shells.
 
+DOTFILESDIR=$(cat "${HOME}/.dotfiles_path")
+
 # If not running interactively, don't do anything
 case $- in
   *i*) ;;
@@ -10,6 +12,9 @@ esac
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
+
+# Append to the Bash history file, rather than overwriting it
+shopt -s histappend
 
 # set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
@@ -58,6 +63,14 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# Add tab completion for SSH hostnames based on ~/.ssh/config
+# ignoring wildcards
+[[ -e "${HOME}/.ssh/config" ]] && complete -o "default" \
+  -o "nospace" \
+  -W "$(grep "^Host" ~/.ssh/config | \
+  grep -v "[?*]" | cut -d " " -f2 | \
+  tr ' ' '\n')" scp sftp ssh
+
 # This path will only exist if Xcode Command Line Tools are installed. To
 # install the tools, run:
 #
@@ -97,3 +110,15 @@ if [ -f "${HOME}/.cargo/env" ]; then
   # shellcheck source=/dev/null
   source "${HOME}/.cargo/env"
 fi
+
+# Load the shell dotfiles, and then some:
+for file in $HOME/.bash_extra "${DOTFILESDIR}"/shell/bash/bash_prompt.sh "${DOTFILESDIR}"/shell/_common/*.sh; do
+  if [[ -r "${file}" ]] && [[ -f "${file}" ]]; then
+    # shellcheck source=/dev/null
+    source "${file}"
+  fi
+done
+unset file
+
+# Hide any failures above from prompts that check exit code
+[[ -f /bin/true ]] && /bin/true
