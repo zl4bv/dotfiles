@@ -1,6 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
-DOTFILESDIR=$(pwd)
+DOTFILESDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+# shellcheck disable=SC1090
+source "${DOTFILESDIR}/detect-os.sh"
 
 printf '%s' "${DOTFILESDIR}" > "${HOME}/.dotfiles_path"
 
@@ -53,19 +56,12 @@ if [ -f /bin/zsh ]; then
   touch "${HOME}/.zsh_extra"
 fi
 
-# shellcheck disable=SC2039
-case "${OSTYPE}" in
-  darwin*)
-    # configure iterm2
-    mkdir -p "${HOME}/.iterm2"
-    ln -sfn "${DOTFILESDIR}/.iterm2/com.googlecode.iterm2.plist" "${HOME}/.iterm2/com.googlecode.iterm2.plist"
-    ;;
-
-  *)
-    ;;
-esac
+if [ "${OS_PLATFORM}" == "mac" ]; then
+  # configure iterm2
+  mkdir -p "${HOME}/.iterm2"
+  ln -sfn "${DOTFILESDIR}/.iterm2/com.googlecode.iterm2.plist" "${HOME}/.iterm2/com.googlecode.iterm2.plist"
+fi
 
 # configure starship
 mkdir -p "${HOME}/.config"
 ln -sfn "${DOTFILESDIR}/starship/starship.toml" "${HOME}/.config/starship.toml"
-
