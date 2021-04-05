@@ -9,6 +9,8 @@ case "${OS_PLATFORM}" in
   linux)
     if [ -f /sys/devices/virtual/dmi/id/product_name ]; then
       HW_MODEL=$(< /sys/devices/virtual/dmi/id/product_name)
+    elif [ -f /sys/firmware/devicetree/base/model ]; then
+      HW_MODEL=$(< /sys/firmware/devicetree/base/model)
     fi
     ;;
 
