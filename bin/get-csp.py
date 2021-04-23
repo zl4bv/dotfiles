@@ -24,16 +24,16 @@ def main(argv):
             print('error: CSP header not found in response')
             return
 
-        directives = {}
-        for policy_directive in csp.split(';'):
-            parts = policy_directive.strip().split(' ')
-            directives[parts[0]] = parts[1:]
+    directives = {}
+    for policy_directive in csp.split(';'):
+        directive_values = policy_directive.strip().split(' ')
+        directives[directive_values[0]] = directive_values[1:]
 
-        print('disposition: %s' % disposition)
-        for directive, values in directives.items():
-            print(directive)
-            for value in sorted(values):
-                print("\t%s" % value)
+    print('disposition: %s' % disposition)
+    for directive, values in directives.items():
+        print(directive)
+        for value in sorted(values):
+            print("\t%s" % value)
 
 
 def usage(argv):
