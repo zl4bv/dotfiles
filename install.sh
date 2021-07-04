@@ -68,4 +68,4 @@ mkdir -p "${HOME}/.config"
 ln -sfn "${DOTFILESDIR}/starship/starship.toml" "${HOME}/.config/starship.toml"
 
 # configure tmux
-ln -sfn "${DOTFILESDIR}/.tmux.conf" "${HOME}/.tmux.conf"
+ln -sfn "${DOTFILESDIR}/tmux/.tmux.conf" "${HOME}/.tmux.conf"
