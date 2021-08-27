@@ -16,7 +16,7 @@ load ../../helpers
 
   run ./modules/05-dotfiles/install.sh
 
-  realdir="$(readlink -f "${LINKNAME}")"
+  realdir="$(cd "${LINKNAME}" && pwd -P)"
   [ "${realdir}" = "${DOTFILESDIR}" ]
 
   rm -rf "${ELSEWHERE}"
