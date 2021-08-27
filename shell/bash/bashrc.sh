@@ -96,13 +96,37 @@ done
 unset file
 
 # Configure nodejs/nvm
-if [ -f /usr/local/opt/nvm/nvm.sh ]; then
+lazynvm() {
+  unset -f nvm node npm npx
   mkdir -p "${HOME}/.nvm"
   export NVM_DIR="$HOME/.nvm"
   # shellcheck disable=SC1091
   [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
   # shellcheck disable=SC1091
   [ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
+}
+
+if [ -f /usr/local/opt/nvm/nvm.sh ]; then
+  nvm() {
+    lazynvm
+    nvm $@
+  }
+  node() {
+    lazynvm
+    node $@
+  }
+  npm() {
+    lazynvm
+    npm $@
+  }
+  npx() {
+    lazynvm
+    npx $@
+  }
+  yarn() {
+    lazynvm
+    yarn $@
+  }
 fi
 
 # Configure rust/cargo
