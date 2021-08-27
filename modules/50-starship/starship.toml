@@ -1,0 +1,5 @@
+[aws.region_aliases]
+ap-southeast-2 = "au"
+
+[package]
+display_private = true
