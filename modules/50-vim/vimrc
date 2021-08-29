@@ -67,7 +67,7 @@ let g:tmuxline_preset = {
   \ 'c': '',
   \ 'win': '#I #W',
   \ 'cwin': ['#I', '#W'],
-  \ 'x': '#(~/.tmux/plugins/tmux-battery/scripts/battery_percentage.sh)',
+  \ 'x': '#(~/.tmux/plugins/tmux-battery/scripts/battery_icon.sh) #(~/.tmux/plugins/tmux-battery/scripts/battery_percentage.sh)',
   \ 'y': ['%a', '%Y-%m-%d', '%R'],
   \ 'z': '#h'}
 
@@ -91,9 +91,15 @@ call vundle#end()
 filetype plugin indent on
 filetype on
 
+" ====================
+" Colour scheme
+" ====================
+
 set background=dark
+
 if (has("termguicolors"))
  set termguicolors
 endif
+
 colorscheme night-owl
 

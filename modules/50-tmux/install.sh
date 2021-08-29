@@ -21,3 +21,9 @@ fi
 rm -f "${HOME}/.tmux.conf"
 
 ln -sfn "${CURDIR}/tmux.conf" "${HOME}/.tmux.conf"
+
+mkdir -p "${HOME}/.tmux/plugins"
+
+if [ ! -d "${HOME}/.tmux/plugins/tpm" ]; then
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
