@@ -1,0 +1,99 @@
+" ====================
+" General
+" ====================
+set nocompatible
+
+filetype indent on            " Enable filetype-specific indenting
+filetype plugin on            " Enable filetype-specific plugins
+
+set autoread
+
+if &term =~ "xterm" || &term =~ "256" || $DISPLAY != "" || $HAS_256_COLORS == "yes"
+  set t_Co=256
+endif
+
+" Remember last cursor position when reopening a file
+if has("autocmd")
+  au!
+  autocmd BufReadPost *
+      \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+      \ |   exe "normal! g`\""
+      \ | endif
+endif
+
+" ====================
+" Status line
+" ====================
+syntax enable
+syntax on
+
+set hlsearch
+set incsearch
+set visualbell t_vb=          " Turn off bell
+set ignorecase
+set bs=2
+
+" ====================
+" User interface
+" ====================
+set ruler
+set number
+
+set showmatch
+
+" ====================
+" Editing
+" ====================
+set expandtab                 " Spaces instead of tabs
+
+set shiftwidth=2
+set tabstop=2
+set softtabstop=2
+
+set smarttab
+
+" ====================
+" vim-airline plugin settings
+" ====================
+let g:airline_powerline_fonts=1
+let g:airline_theme='night_owl'
+
+" ====================
+" tmuxline plugin settings
+" ====================
+let g:tmuxline_preset = {
+  \ 'a': '#S',
+  \ 'b': '',
+  \ 'c': '',
+  \ 'win': '#I #W',
+  \ 'cwin': ['#I', '#W'],
+  \ 'x': '#(~/.tmux/plugins/tmux-battery/scripts/battery_percentage.sh)',
+  \ 'y': ['%a', '%Y-%m-%d', '%R'],
+  \ 'z': '#h'}
+
+filetype off
+
+" ====================
+" Vundle
+" ====================
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
+
+Plugin 'haishanh/night-owl.vim'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'edkolev/tmuxline.vim'
+
+call vundle#end()
+
+filetype plugin indent on
+filetype on
+
+set background=dark
+if (has("termguicolors"))
+ set termguicolors
+endif
+colorscheme night-owl
+
