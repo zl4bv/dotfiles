@@ -7,6 +7,10 @@ case $- in
   *) return;;
 esac
 
+# Suppress "The default interactive shell is now zsh" in macOS
+# https://apple.stackexchange.com/a/371998
+export BASH_SILENCE_DEPRECATION_WARNING=1
+
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
