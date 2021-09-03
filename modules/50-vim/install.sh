@@ -2,17 +2,19 @@
 
 CURDIR="${HOME}/.dotfiles/modules/50-vim"
 
-case "${PKG_MGR}" in
-  apt-get)
-    apt-get install --yes vim
-    ;;
-  homebrew)
-    brew install vim
-    ;;
-  pacman)
-    pacman -S vim
-    ;;
-esac
+if ! command -v vim >/dev/null 2>&1; then
+  case "${PKG_MGR}" in
+    apt-get)
+      sudo apt-get install --yes vim
+      ;;
+    homebrew)
+      sudo brew install vim
+      ;;
+    pacman)
+      sudo pacman -S vim
+      ;;
+  esac
+fi
 
 if [ -e "${HOME}/.vimrc" ]; then
   cp "${HOME}/.vimrc" "${HOME}/.vimrc.bak"

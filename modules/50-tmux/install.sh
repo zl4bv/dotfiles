@@ -2,17 +2,19 @@
 
 CURDIR="${HOME}/.dotfiles/modules/50-tmux"
 
-case "${PKG_MGR}" in
-  apt-get)
-    apt-get install --yes tmux
-    ;;
-  homebrew)
-    brew install tmux
-    ;;
-  pacman)
-    pacman -S tmux
-    ;;
-esac
+if ! command -v tmux >/dev/null 2>&1; then
+  case "${PKG_MGR}" in
+    apt-get)
+      sudo apt-get install --yes tmux
+      ;;
+    homebrew)
+      sudo brew install tmux
+      ;;
+    pacman)
+      sudo pacman -S tmux
+      ;;
+  esac
+fi
 
 if [ -e "${HOME}/.tmux.conf" ]; then
   cp "${HOME}/.tmux.conf" "${HOME}/.tmux.conf.bak"
@@ -26,4 +28,5 @@ mkdir -p "${HOME}/.tmux/plugins"
 
 if [ ! -d "${HOME}/.tmux/plugins/tpm" ]; then
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+  "${HOME}"/.tmux/plugins/tpm/bin/install_plugins
 fi
