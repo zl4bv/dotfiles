@@ -8,7 +8,7 @@ if ! command -v tmux >/dev/null 2>&1; then
       sudo apt-get install --yes tmux
       ;;
     homebrew)
-      sudo brew install tmux
+      brew install tmux
       ;;
     pacman)
       sudo pacman -S tmux

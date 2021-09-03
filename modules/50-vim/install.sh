@@ -8,7 +8,7 @@ if ! command -v vim >/dev/null 2>&1; then
       sudo apt-get install --yes vim
       ;;
     homebrew)
-      sudo brew install vim
+      brew install vim
       ;;
     pacman)
       sudo pacman -S vim
