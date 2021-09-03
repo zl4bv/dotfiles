@@ -94,36 +94,41 @@ done
 unset file
 
 # Configure nodejs/nvm
+if [ -d /usr/local/opt/nvm ]; then # Older versions of nvm
+  NVM_DIR=/usr/local/opt/nvm
+elif [ -d "${HOME}/.nvm" ]; then
+  NVM_DIR="${HOME}/.nvm"
+fi
+export NVM_DIR
+
 lazynvm() {
   unset -f nvm node npm npx
-  mkdir -p "${HOME}/.nvm"
-  export NVM_DIR="$HOME/.nvm"
-  # shellcheck disable=SC1091
-  [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-  # shellcheck disable=SC1091
-  [ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
+  # shellcheck disable=SC1090
+  [ -s "${NVM_DIR}/nvm.sh" ] && . "${NVM_DIR}/nvm.sh"  # This loads nvm
+  # shellcheck disable=SC1090
+  [ -s "${NVM_DIR}/bash_completion" ] && . "${NVM_DIR}/bash_completion"  # This loads nvm bash_completion
 }
 
-if [ -f /usr/local/opt/nvm/nvm.sh ]; then
+if [ -n "${NVM_DIR}" ] && [ -d "${NVM_DIR}" ]; then
   nvm() {
     lazynvm
-    nvm $@
+    nvm "$@"
   }
   node() {
     lazynvm
-    node $@
+    node "$@"
   }
   npm() {
     lazynvm
-    npm $@
+    npm "$@"
   }
   npx() {
     lazynvm
-    npx $@
+    npx "$@"
   }
   yarn() {
     lazynvm
-    yarn $@
+    yarn "$@"
   }
 fi
 
