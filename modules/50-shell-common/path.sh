@@ -1,18 +1,54 @@
 #!/bin/sh
 
-DOTFILESDIR=$(cat "${HOME}/.dotfiles_path")
+appendpath() {
+  entry="${1}"
+
+  if [ ! -d "${entry}" ]; then
+    return
+  fi
+
+  case "${PATH}" in
+    *$entry*)
+      ;;
+    *)
+      export PATH="${PATH}:${entry}"
+      ;;
+  esac
+
+  unset entry
+}
+
+prependpath() {
+  entry="${1}"
+
+  if [ ! -d "${entry}" ]; then
+    return
+  fi
+
+  case "${PATH}" in
+    *$entry*)
+      ;;
+    *)
+      export PATH="${entry}:${PATH}"
+      ;;
+  esac
+
+  unset entry
+}
+
+prependpath "${HOME}/bin"
 
 # dotfiles
-export PATH="${PATH}:${DOTFILESDIR}/bin"
+prependpath "${HOME}/.dotfiles/bin"
 
 # go path
 [ -d "${HOME}/go" ] && export GOPATH="${HOME}/go"
-[ -d "${HOME}/go/bin" ] && export PATH="${PATH}:${GOPATH}/bin"
-[ -d /usr/local/go/bin ] && export PATH="${PATH}:/usr/local/go/bin"
+prependpath "${GOPATH}/bin"
+prependpath "/usr/local/go/bin"
 
 # cargo path
-[ -d "${HOME}/.cargo/bin" ] && export PATH="${PATH}:${HOME}/.cargo/bin"
+prependpath "${HOME}/.cargo/bin"
 
 # update path for VS code
-[ -d "/Applications/Visual Studio Code.app" ] && export PATH="${PATH}:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-[ -d "/Applications/Visual Studio Code - Insiders.app" ] && export PATH="${PATH}:/Applications/Visual Studio Code - Insiders.app/Contents/Resources/app/bin"
+appendpath "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+appendpath "/Applications/Visual Studio Code - Insiders.app/Contents/Resources/app/bin"
