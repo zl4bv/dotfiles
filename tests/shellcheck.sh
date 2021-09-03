@@ -8,7 +8,7 @@ ERRORS=()
 for f in $(find . -type f -iwholename '*.sh' | sort -u); do
 	if file "$f" | grep --quiet shell; then
 		{
-			shellcheck "$f" && echo "[OK]: sucessfully linted $f"
+			shellcheck -x "$f" && echo "[OK]: sucessfully linted $f"
 		} || {
 			# add to errors
 			ERRORS+=("$f")
