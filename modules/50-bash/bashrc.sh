@@ -106,7 +106,7 @@ fi
 export NVM_DIR
 
 lazynvm() {
-  unset -f nvm node npm npx
+  unset -f nvm node npm npx yarn
   # shellcheck disable=SC1090
   [ -s "${NVM_DIR}/nvm.sh" ] && . "${NVM_DIR}/nvm.sh"  # This loads nvm
   # shellcheck disable=SC1090
@@ -153,3 +153,5 @@ unset file
 
 # Hide any failures above from prompts that check exit code
 [[ -f /bin/true ]] && /bin/true
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
