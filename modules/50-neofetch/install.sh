@@ -6,7 +6,7 @@ fi
 
 case "${PKG_MGR}" in
   apt-get)
-    apt-get install --yes neofetch
+    sudo apt-get install --yes neofetch
     ;;
 
   homebrew)
@@ -14,6 +14,6 @@ case "${PKG_MGR}" in
     ;;
 
   pacman)
-    pacman -S neofetch
+    sudo pacman -S neofetch
     ;;
 esac
