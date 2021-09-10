@@ -95,11 +95,13 @@ filetype on
 " Colour scheme
 " ====================
 
-set background=dark
-
 if (has("termguicolors"))
  set termguicolors
 endif
 
-colorscheme night-owl
-
+try
+  colorscheme night-owl
+catch /^Vim\%((\a\+)\)\=:E185/
+  colorscheme default
+  set background=dark
+endtry
