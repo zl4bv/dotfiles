@@ -45,6 +45,16 @@ font:
   size: 12
   use_thin_strokes: true
 
+key_bindings:
+  # Fix key bindings on macOS
+  # https://github.com/alacritty/alacritty/issues/474
+  - { key: Left,     mods: Alt,     chars: "\x1bb"                       } # Skip word left
+  - { key: Right,    mods: Alt,     chars: "\x1bf"                       } # Skip word right
+  - { key: Left,     mods: Command, chars: "\x1bOH",   mode: AppCursor   } # Home
+  - { key: Right,    mods: Command, chars: "\x1bOF",   mode: AppCursor   } # End
+  - { key: Back,     mods: Command, chars: "\x15"                        } # Delete line
+  - { key: Back,     mods: Alt,     chars: "\x1b\x7f"                    } # Delete word
+
 selection:
   save_to_clipboard: true
 
