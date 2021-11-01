@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Always enable colored `grep` output
-alias grep='grep --color=auto '
+alias grep='grep --color=auto'
 
 # Enable aliases to be sudo’ed
 alias sudo='sudo '
@@ -12,20 +12,30 @@ command -v md5sum > /dev/null || alias md5sum="md5"
 # OS X has no `sha1sum`, so use `shasum` as a fallback
 command -v sha1sum > /dev/null || alias sha1sum="shasum"
 
-# Check for package managers
-for mgr in apt-get brew; do
-  if command -v $mgr >/dev/null 2>&1; then
-    # shellcheck disable=SC2139
-    alias canihaz="$mgr install";
-    break;
-  fi
-done
+# Fast install
+if command -v apt-get > /dev/null; then
+  alias canihaz='apt-get install --yes'
+elif command -v brew > /dev/null; then
+  alias canihaz='brew install'
+elif command -v pacman > /dev/null; then
+  alias canihaz='pacman -S'
+fi
 
+# Manage AWS credentials
 # https://github.com/zl4bv/aws-session-credentials
-alias amfa='aws-session new --mfa-code '
-alias ar='aws-session assume-role --role-alias '
+if command -v aws-session > /dev/null; then
+  alias amfa='aws-session new --mfa-code'
+  alias ar='aws-session assume-role --role-alias'
+fi
 
-# Atom
-alias aa='atom -a '
+# Open in Atom editor
+if command -v atom > /dev/null; then
+  alias aa='atom -a'
+fi
 
-alias ll='ls -la '
+# Long directory listing
+if command -v exa > /dev/null; then
+  alias ll='exa -la'
+else
+  alias ll='ls -la'
+fi
