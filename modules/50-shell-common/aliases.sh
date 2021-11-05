@@ -39,3 +39,9 @@ if command -v exa > /dev/null; then
 else
   alias ll='ls -la'
 fi
+
+# Reload waybar
+if command -v waybar > /dev/null; then
+  alias reloadwaybar='killall -SIGUSR2 waybar'
+  alias togglewaybar='killall -SIGUSR1 waybar'
+fi
