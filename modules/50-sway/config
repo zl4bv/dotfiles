@@ -210,10 +210,10 @@ bindsym --locked XF86MonBrightnessUp exec --no-startup-id brightnessctl s +10%
 bindsym --locked XF86MonBrightnessDown exec --no-startup-id brightnessctl s 10%-
 
 # Take a screenshot with all output and save it into screenshots
-bindsym Print exec grim -t jpeg ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%m-%s).jpg
+bindsym Print exec grim -t png "${HOME}/Pictures/Screenshots/Screenshot $(date '+%Y-%m-%d %H.%m.%S').png"
 
 # Take a Screenshot with the region select
-bindsym $mod+Print exec grim -t jpeg -g "$(slurp)" ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%m-%s).jpg
+bindsym $mod+Print exec grim -t png -g "$(slurp)" "${HOME}/Pictures/Screenshots/Screenshot $(date '+%Y-%m-%d %H.%m.%S').png"
 
 # Manually lock screen
 bindsym Mod4+l exec ~/.config/sway/scripts/swaylock.sh
