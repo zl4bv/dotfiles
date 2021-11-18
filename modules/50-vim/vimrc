@@ -127,6 +127,9 @@ endtry
 " Set window width (default: 31)
 let g:NERDTreeWinSize=47
 
+" Show hidden files (default: 0)
+let NERDTreeShowHidden=1
+
 " Start NERDTree, unless a file or session is specified, eg. vim -S session_file.vim.
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists('s:std_in') && v:this_session == '' | NERDTree | endif
@@ -150,4 +153,4 @@ let g:ale_linter_aliases = {
 let g:ale_linters = {
   \'javascript': ['eslint']
   \}
-let g:ale_open_list = 1
+"let g:ale_open_list = 1
