@@ -15,7 +15,7 @@ export HISTCONTROL=ignoredups;
 export LANG="en_US.UTF-8";
 export LC_ALL="en_US.UTF-8";
 
-if [ -f /usr/libexec/java_home ]; then
-  JAVA_HOME=$(/usr/libexec/java_home)
+if [ -f /usr/libexec/java_home ] && [ -n "$(ls -A /Library/Java/JavaVirtualMachines 2>/dev/null)" ]; then
+  JAVA_HOME="$(/usr/libexec/java_home)"
   export JAVA_HOME
 fi
