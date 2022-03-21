@@ -48,21 +48,34 @@ fi
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
-if [[ -r /usr/local/bin/brew ]]; then
-  prefix=$(brew --prefix)
+if [[ -r /opt/homebrew/bin/brew ]]; then
+  # M1
+  export HOMEBREW_PREFIX="/opt/homebrew";
+  export HOMEBREW_CELLAR="/opt/homebrew/Cellar";
+  export HOMEBREW_REPOSITORY="/opt/homebrew";
+  export PATH="/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}";
+  export MANPATH="/opt/homebrew/share/man${MANPATH+:$MANPATH}:";
+  export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
+elif [[ -r /usr/local/bin/brew ]]; then
+  # Intel
+  export HOMEBREW_PREFIX="/usr/local";
+  export HOMEBREW_CELLAR="/usr/local/Cellar";
+  export HOMEBREW_REPOSITORY="/usr/local/Homebrew";
+  export PATH="/usr/local/bin:/usr/local/sbin${PATH+:$PATH}";
+  export MANPATH="/usr/local/share/man${MANPATH+:$MANPATH}:";
+  export INFOPATH="/usr/local/share/info:${INFOPATH:-}";
 fi
 
 if ! shopt -oq posix; then
-  if [[ -f "${prefix}/usr/share/bash-completion/bash_completion" ]]; then
+  if [[ -n "${HOMEBREW_PREFIX}" ]]; then
     # shellcheck source=/dev/null
-    source "${prefix}/usr/share/bash-completion/bash_completion"
-  elif [[ -f ${prefix}/etc/bash_completion ]]; then
+    [[ -f "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]] && source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
     # shellcheck source=/dev/null
-    source "${prefix}/etc/bash_completion"
-  elif [[ -f "/usr/local/etc/profile.d/bash_completion.sh" ]]; then
-    # shellcheck source=/dev/null
-    source "/usr/local/etc/profile.d/bash_completion.sh"
+    [[ -f "${HOMEBREW_PREFIX}/usr/share/bash-completion/bash_completion" ]] && source "${HOMEBREW_PREFIX}/usr/share/bash-completion/bash_completion"
   fi
+
+  # shellcheck source=/dev/null
+  [[ -f "/etc/profile.d/bash_completion.sh" ]] && source "/etc/profile.d/bash_completion.sh"
 fi
 
 # Add tab completion for SSH hostnames based on ~/.ssh/config
@@ -73,26 +86,11 @@ fi
   grep -v "[?*]" | cut -d " " -f2 | \
   tr ' ' '\n')" scp sftp ssh
 
-# This path will only exist if Xcode Command Line Tools are installed. To
-# install the tools, run:
-#
-#   xcode-select --install
-#
-if [[ -f "/Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash" ]]; then
-  # shellcheck source=/dev/null
-  source "/Library/Developer/CommandLineTools/usr/share/git-core/git-completion.bash"
-elif [[ -f "{prefix}/etc/bash_completion.d/git-completion.bash" ]]; then
-  # shellcheck source=/dev/null
-  source "{prefix}/etc/bash_completion.d/git-completion.bash"
-fi
-
-unset prefix
-
 # Configure kubernetes
-for file in /usr/local/bin/{kubeadm,kubectl,kops}; do
-  if [[ -x "${file}" ]]; then
+for tool in kubeadm kubectl kops; do
+  if command -v ${tool} >/dev/null 2>&1; then
     # shellcheck source=/dev/null
-    source <(${file} completion "$(basename "${SHELL}")")
+    source <(${tool} completion "$(basename "${SHELL}")")
   fi
 done
 unset file
@@ -107,9 +105,9 @@ export NVM_DIR
 
 lazynvm() {
   unset -f nvm node npm npx yarn
-  # shellcheck disable=SC1090
+  # shellcheck source=/dev/null
   [ -s "${NVM_DIR}/nvm.sh" ] && . "${NVM_DIR}/nvm.sh"  # This loads nvm
-  # shellcheck disable=SC1090
+  # shellcheck source=/dev/null
   [ -s "${NVM_DIR}/bash_completion" ] && . "${NVM_DIR}/bash_completion"  # This loads nvm bash_completion
 }
 
