@@ -96,8 +96,8 @@ done
 unset file
 
 # Configure nodejs/nvm
-if [ -d /usr/local/opt/nvm ]; then # Older versions of nvm
-  NVM_DIR=/usr/local/opt/nvm
+if [ -d "${HOMEBREW_PREFIX}/opt/nvm" ]; then
+  NVM_DIR="${HOMEBREW_PREFIX}/opt/nvm"
 elif [ -d "${HOME}/.nvm" ]; then
   NVM_DIR="${HOME}/.nvm"
 fi
@@ -153,6 +153,7 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 if command -v lima >/dev/null 2>&1; then
   alias docker="lima nerdctl"
+  source <(limactl completion bash)
 fi
 
 # Hide any failures above from prompts that check exit code
