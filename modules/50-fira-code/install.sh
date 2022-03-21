@@ -6,7 +6,8 @@ case "${PKG_MGR}" in
     sudo apt-get install --yes fonts-firacode
     ;;
   homebrew)
-    brew install font-fira-code
+    brew tap homebrew/cask-fonts
+    brew install --cask font-fira-code
     ;;
   pacman)
     pacman -S ttf-fira-code
