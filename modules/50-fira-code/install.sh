@@ -1,5 +1,6 @@
 #!/bin/bash
 
+echo "Installing Font Fira Code..."
 case "${PKG_MGR}" in
   apt-get)
     sudo apt-get install --yes fonts-firacode

@@ -2,6 +2,17 @@
 
 CURDIR="${HOME}/.dotfiles/modules/30-git"
 
+if ! command -v alacritty >/dev/null 2>&1; then
+  echo "Installing Git..."
+  case "${PKG_MGR}" in
+  homebrew)
+    brew install git
+    ;;
+  pacman)
+    pacman -S git
+esac
+fi
+
 for file in gitattributes gitconfig; do
   if [ -e "${HOME}/.${file}" ]; then
     cp "${HOME}/.${file}" "${HOME}/.${file}.bak"

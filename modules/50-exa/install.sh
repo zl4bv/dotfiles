@@ -1,6 +1,7 @@
 #!/bin/bash
 
 if ! command -v exa >/dev/null 2>&1; then
+  echo "Installing Exa..."
   case "${PKG_MGR}" in
     apt-get)
       sudo apt-get install --yes exa

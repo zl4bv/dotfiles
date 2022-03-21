@@ -2,7 +2,16 @@
 
 CURDIR="${HOME}/.dotfiles/modules/50-konsole"
 
-# Only set up if Konsole is already installed
+if ! command -v konsole >/dev/null 2>&1; then
+  echo "Installing Konsole..."
+  case "${PKG_MGR}" in
+  pacman)
+    pacman -S konsole
+    ;;
+esac
+fi
+
+# Only continue if Konsole is already installed
 if ! command -v konsole >/dev/null 2>&1; then
   exit 0
 fi

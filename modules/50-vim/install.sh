@@ -3,6 +3,7 @@
 CURDIR="${HOME}/.dotfiles/modules/50-vim"
 
 if ! command -v vim >/dev/null 2>&1; then
+  echo "Installing Vim..."
   case "${PKG_MGR}" in
     apt-get)
       sudo apt-get install --yes vim

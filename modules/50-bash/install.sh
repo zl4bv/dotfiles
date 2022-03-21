@@ -2,11 +2,14 @@
 
 CURDIR="${HOME}/.dotfiles/modules/50-bash"
 
-case "${PKG_MGR}" in
-  homebrew)
-    brew install bash-completion
-    ;;
-esac
+if [ -n "$(declare -F __git_complete)" ]; then
+  echo "Installing bash-completion..."
+  case "${PKG_MGR}" in
+    homebrew)
+      brew install bash-completion
+      ;;
+  esac
+fi
 
 for file in bash_profile bashrc; do
   if [ -e "${HOME}/.${file}" ]; then

@@ -3,7 +3,12 @@
 CURDIR="${HOME}/.dotfiles/modules/50-alacritty"
 
 if ! command -v alacritty >/dev/null 2>&1; then
-  exit 0
+  echo "Installing Alacritty..."
+  case "${PKG_MGR}" in
+  homebrew)
+    brew install alacritty
+    ;;
+esac
 fi
 
 if [ -e "${HOME}/.config/alacritty.yml" ]; then

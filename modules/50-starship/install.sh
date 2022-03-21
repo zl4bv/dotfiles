@@ -3,6 +3,7 @@
 CURDIR="${HOME}/.dotfiles/modules/50-starship"
 
 if ! command -v starship >/dev/null 2>&1; then
+  echo "Installing Starship..."
   case "${PKG_MGR}" in
     homebrew)
       brew install starship
