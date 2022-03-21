@@ -149,7 +149,11 @@ for file in "${HOME}"/.bash_extra "${HOME}"/.dotfiles/modules/50-bash/bash_promp
 done
 unset file
 
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+if command -v lima >/dev/null 2>&1; then
+  alias docker="lima nerdctl"
+fi
+
 # Hide any failures above from prompts that check exit code
 [[ -f /bin/true ]] && /bin/true
-
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
