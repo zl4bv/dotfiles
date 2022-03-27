@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if command -v fc-list >/dev/null 2>&1; then
+  fclistout=$(fc-list | grep FiraCode)
+  [ -n "${fclistout}" ] && exit 0
+fi
+
 echo "Installing Font Fira Code..."
 case "${PKG_MGR}" in
   apt-get)
@@ -10,7 +15,7 @@ case "${PKG_MGR}" in
     brew install --cask font-fira-code
     ;;
   pacman)
-    pacman -S ttf-fira-code
+    sudo pacman -S --noconfirm ttf-fira-code
     ;;
   *)
     echo "Warning! Not installing FiraCode font: unknown package manager"

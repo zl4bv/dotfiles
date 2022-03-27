@@ -8,6 +8,6 @@ if ! command -v hexyl >/dev/null 2>&1; then
       ;;
 
     pacman)
-      sudo pacman -S hexyl
+      sudo pacman -S --noconfirm hexyl
   esac
 fi

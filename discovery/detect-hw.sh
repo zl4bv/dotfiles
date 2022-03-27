@@ -19,3 +19,6 @@ case "${OS_PLATFORM}" in
     ;;
 esac
 export HW_MODEL
+
+HW_MACHINE=$(uname -m)
+export HW_MACHINE
