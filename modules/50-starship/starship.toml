@@ -4,5 +4,11 @@ disabled = true
 [aws.region_aliases]
 ap-southeast-2 = "au"
 
+[docker_context]
+disabled = true
+
+[nodejs]
+symbol = ""
+
 [package]
 display_private = true
