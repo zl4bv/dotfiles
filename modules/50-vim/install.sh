@@ -2,7 +2,8 @@
 
 CURDIR="${HOME}/.dotfiles/modules/50-vim"
 
-if ! command -v vim >/dev/null 2>&1; then
+vimpath=$(command -v vim 2>/dev/null)
+if [ -z "${vimpath}" ]; then
   echo "Installing Vim..."
   case "${PKG_MGR}" in
     apt-get)
@@ -15,6 +16,9 @@ if ! command -v vim >/dev/null 2>&1; then
       sudo pacman -S vim
       ;;
   esac
+elif [ "${vimpath}" = "/usr/bin/vim" ] && [ "${OS_PLATFORM}" = "mac" ] && [ "${PKG_MGR}" = "homebrew" ]; then
+  echo "Substituting built-in Vim with Homebrew Vim..."
+  brew install vim
 fi
 
 if [ -e "${HOME}/.vimrc" ]; then
