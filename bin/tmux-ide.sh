@@ -11,7 +11,7 @@ elif [ ! -d "${targetdir}" ]; then
 fi
 
 windowname=$(basename "${targetdir}")
-abspath=$(readlink "${targetdir}")
+abspath=$(cd "${targetdir}" && pwd)
 
-tmux new-window -S -c "${targetdir}" -n "${windowname}" -e "TERM=${TERM}" "vim ${abspath}" \;\
-     split-window -d -v -l 20% -c "${targetdir}"
+tmux new-window -c "${targetdir}" -n "${windowname}" -e "TERM=${TERM}" "vim ${abspath}" \;\
+     split-window -d -v -l 20% -c "${abspath}"
