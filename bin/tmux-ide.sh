@@ -13,5 +13,5 @@ fi
 windowname=$(basename "${targetdir}")
 abspath=$(cd "${targetdir}" && pwd)
 
-tmux new-window -c "${targetdir}" -n "${windowname}" -e "TERM=${TERM}" "vim ${abspath}" \;\
+tmux new-window -c "${abspath}" -n "${windowname}" -e "TERM=${TERM}" vim \;\
      split-window -d -v -l 20% -c "${abspath}"
