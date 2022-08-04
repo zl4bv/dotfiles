@@ -151,7 +151,9 @@ unset file
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
-if command -v lima >/dev/null 2>&1; then
+if command -v colima >/dev/null 2>&1; then
+  alias docker="colima nerdctl"
+elif command -v lima >/dev/null 2>&1; then
   alias docker="lima nerdctl"
   # shellcheck source=/dev/null
   source <(limactl completion bash)
