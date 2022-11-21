@@ -128,6 +128,10 @@ if [ -n "${NVM_DIR}" ] && [ -d "${NVM_DIR}" ]; then
     lazynvm
     npx "$@"
   }
+  pnpm() {
+    lazynvm
+    pnpm "$@"
+  }
   yarn() {
     lazynvm
     yarn "$@"
@@ -152,7 +156,7 @@ unset file
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 if command -v colima >/dev/null 2>&1; then
-  alias docker="colima nerdctl"
+  alias docker="colima nerdctl --"
 elif command -v lima >/dev/null 2>&1; then
   alias docker="lima nerdctl"
   # shellcheck source=/dev/null
