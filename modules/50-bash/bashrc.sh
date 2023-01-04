@@ -76,6 +76,9 @@ if ! shopt -oq posix; then
 
   # shellcheck source=/dev/null
   [[ -f "/etc/profile.d/bash_completion.sh" ]] && source "/etc/profile.d/bash_completion.sh"
+
+  # shellcheck source=/dev/null
+  [[ -f "/usr/share/bash-completion/bash_completion" ]] && source "/usr/share/bash-completion/bash_completion"
 fi
 
 # Add tab completion for SSH hostnames based on ~/.ssh/config

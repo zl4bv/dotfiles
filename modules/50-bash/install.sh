@@ -2,11 +2,14 @@
 
 CURDIR="${HOME}/.dotfiles/modules/50-bash"
 
-if [ -n "$(declare -F __git_complete)" ]; then
+if [ -z "$(declare -F __git_complete)" ]; then
   echo "Installing bash-completion..."
   case "${PKG_MGR}" in
     homebrew)
       brew install bash-completion
+      ;;
+    pacman)
+      sudo pacman -S --noconfirm bash-completion
       ;;
   esac
 fi
