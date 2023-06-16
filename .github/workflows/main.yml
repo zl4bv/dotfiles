@@ -14,7 +14,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    container: { image: r.j3ss.co/shellcheck }
+    container: { image: koalaman/shellcheck:stable }
     steps:
     - uses: actions/checkout@v2
     - name: ShellCheck
