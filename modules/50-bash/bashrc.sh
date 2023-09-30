@@ -107,7 +107,7 @@ fi
 export NVM_DIR
 
 lazynvm() {
-  unset -f nvm node npm npx yarn
+  unset -f nvm node npm npx pnpm yarn
   # shellcheck source=/dev/null
   [ -s "${NVM_DIR}/nvm.sh" ] && . "${NVM_DIR}/nvm.sh"  # This loads nvm
   # shellcheck source=/dev/null
