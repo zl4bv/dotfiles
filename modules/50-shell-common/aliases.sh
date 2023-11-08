@@ -45,3 +45,7 @@ if command -v waybar > /dev/null; then
   alias reloadwaybar='killall -SIGUSR2 waybar'
   alias togglewaybar='killall -SIGUSR1 waybar'
 fi
+
+_git_wip() {
+  _git_add
+}
