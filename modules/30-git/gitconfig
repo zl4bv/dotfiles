@@ -44,7 +44,7 @@
 
 [alias]
 
-	wip = "!f() { msg=\"$(shuf -n 1 ${HOME}/.dotfiles/modules/30-git/wiplist.txt)\" && git add \"$*\" && git commit -m \"wip: ${msg}\"; }; f"
+	wip = "!f() { msg=\"$(shuf -n 1 ${HOME}/.dotfiles/modules/30-git/wiplist.txt)\" && git add "$@" && git commit --no-verify -m \"wip: ${msg}\"; }; f"
 
 [include]
 
