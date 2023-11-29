@@ -26,4 +26,4 @@ shellcheck:
 		--name df-shellcheck \
 		-v $(CURDIR):/usr/src:ro \
 		--workdir /usr/src \
-		r.j3ss.co/shellcheck ./tests/shellcheck.sh
+		koalaman/shellcheck:stable ./tests/shellcheck.sh
