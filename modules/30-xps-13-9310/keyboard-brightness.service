@@ -1,0 +1,13 @@
+[Unit]
+Description=Set keyboard brightness after resume
+StopWhenUnneeded=yes
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/sys/class/leds/dell::kbd_backlight/
+ExecStart=
+ExecStop=bash -c "sleep 3s && cat max_brightness > brightness"
+
+[Install]
+WantedBy=sleep.target
