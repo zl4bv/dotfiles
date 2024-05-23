@@ -106,40 +106,10 @@ elif [ -d "${HOME}/.nvm" ]; then
 fi
 export NVM_DIR
 
-lazynvm() {
-  unset -f nvm node npm npx pnpm yarn
-  # shellcheck source=/dev/null
-  [ -s "${NVM_DIR}/nvm.sh" ] && . "${NVM_DIR}/nvm.sh"  # This loads nvm
-  # shellcheck source=/dev/null
-  [ -s "${NVM_DIR}/bash_completion" ] && . "${NVM_DIR}/bash_completion"  # This loads nvm bash_completion
-}
-
-if [ -n "${NVM_DIR}" ] && [ -d "${NVM_DIR}" ]; then
-  nvm() {
-    lazynvm
-    nvm "$@"
-  }
-  node() {
-    lazynvm
-    node "$@"
-  }
-  npm() {
-    lazynvm
-    npm "$@"
-  }
-  npx() {
-    lazynvm
-    npx "$@"
-  }
-  pnpm() {
-    lazynvm
-    pnpm "$@"
-  }
-  yarn() {
-    lazynvm
-    yarn "$@"
-  }
-fi
+# shellcheck source=/dev/null
+[ -s "${NVM_DIR}/nvm.sh" ] && . "${NVM_DIR}/nvm.sh"  # This loads nvm
+# shellcheck source=/dev/null
+[ -s "${NVM_DIR}/bash_completion" ] && . "${NVM_DIR}/bash_completion"  # This loads nvm bash_completion
 
 # Configure rust/cargo
 if [ -f "${HOME}/.cargo/env" ]; then
