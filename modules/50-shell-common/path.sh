@@ -49,6 +49,9 @@ prependpath "/usr/local/go/bin"
 # cargo path
 prependpath "${HOME}/.cargo/bin"
 
-# update path for VS code
+# Kate - macOS
+appendpath "/Applications/kate.app/Contents/MacOS"
+
+# VS code - macOS
 appendpath "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 appendpath "/Applications/Visual Studio Code - Insiders.app/Contents/Resources/app/bin"
