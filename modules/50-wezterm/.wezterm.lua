@@ -103,7 +103,7 @@ function window_frame_for_appearance(appearance)
 
   -- Elements common to both colour schemes.
   window_frame.font      = wezterm.font { family = 'Fira Code', weight = 'Regular' }
-  window_frame.font_size = 10
+  window_frame.font_size = 11
 
   return window_frame
 end
@@ -114,7 +114,7 @@ config.color_scheme   = scheme_for_appearance(wezterm.gui.get_appearance())
 config.colors         = colors_for_appearance(wezterm.gui.get_appearance())
 config.enable_wayland = true
 config.font           = wezterm.font 'Fira Code'
-config.font_size      = 11.0
+config.font_size      = 12.0
 
 config.hide_tab_bar_if_only_one_tab = true
 
