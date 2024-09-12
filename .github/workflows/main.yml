@@ -14,9 +14,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    container:
-      image: "koalaman/shellcheck:stable"
-    steps:
-      - uses: actions/checkout@v2
-      - name: ShellCheck
-        run: ./tests/shellcheck.sh
+      - uses: actions/checkout@v4
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@master
