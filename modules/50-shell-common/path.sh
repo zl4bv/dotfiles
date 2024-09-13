@@ -41,17 +41,17 @@ prependpath "${HOME}/bin"
 # dotfiles
 prependpath "${HOME}/.dotfiles/bin"
 
-# go path
+# go
 [ -d "${HOME}/go" ] && export GOPATH="${HOME}/go"
 prependpath "${GOPATH}/bin"
 prependpath "/usr/local/go/bin"
 
-# cargo path
+# cargo
 prependpath "${HOME}/.cargo/bin"
 
 # Kate - macOS
 appendpath "/Applications/kate.app/Contents/MacOS"
 
-# VS code - macOS
+# VS Code - macOS
 appendpath "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 appendpath "/Applications/Visual Studio Code - Insiders.app/Contents/Resources/app/bin"

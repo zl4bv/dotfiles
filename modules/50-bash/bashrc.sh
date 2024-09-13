@@ -49,7 +49,7 @@ fi
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if [[ -r /opt/homebrew/bin/brew ]]; then
-  # M1
+  # macOS Apple Silicon
   export HOMEBREW_PREFIX="/opt/homebrew";
   export HOMEBREW_CELLAR="/opt/homebrew/Cellar";
   export HOMEBREW_REPOSITORY="/opt/homebrew";
@@ -57,7 +57,7 @@ if [[ -r /opt/homebrew/bin/brew ]]; then
   export MANPATH="/opt/homebrew/share/man${MANPATH+:$MANPATH}:";
   export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
 elif [[ -r /usr/local/bin/brew ]]; then
-  # Intel
+  # macOS Intel
   export HOMEBREW_PREFIX="/usr/local";
   export HOMEBREW_CELLAR="/usr/local/Cellar";
   export HOMEBREW_REPOSITORY="/usr/local/Homebrew";

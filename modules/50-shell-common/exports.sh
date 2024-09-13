@@ -1,7 +1,8 @@
 #!/bin/sh
 
 # Make vim the default editor
-export EDITOR=/usr/bin/vim;
+vimpath="$(command -v vim)"
+[ -n "${vimpath}" ] && export EDITOR="${vimpath}"
 #export TERMINAL="urxvt";
 
 # Larger bash history (allow 32³ entries; default is 500)
