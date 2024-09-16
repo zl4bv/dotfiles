@@ -118,8 +118,9 @@ config.font_size      = 12.0
 
 config.hide_tab_bar_if_only_one_tab = true
 
-config.scrollback_lines = 100000
-config.window_frame     = window_frame_for_appearance(wezterm.gui.get_appearance())
+config.scrollback_lines          = 100000
+config.window_close_confirmation = 'NeverPrompt'
+config.window_frame              = window_frame_for_appearance(wezterm.gui.get_appearance())
 
 config.hyperlink_rules = {
   -- Matches: a URL in parens: (URL)
