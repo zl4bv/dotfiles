@@ -38,3 +38,11 @@ end
 if test -r "$HOME/.dotfiles/modules/50-fish/path.fish"
   source "$HOME/.dotfiles/modules/50-fish/path.fish"
 end
+
+if test -r "$HOME/.dotfiles/modules/50-fish/aliases.fish"
+  source "$HOME/.dotfiles/modules/50-fish/aliases.fish"
+end
+
+if test -r "$HOME/.config/fish/extra.fish"
+  source "$HOME/.config/fish/extra.fish"
+end

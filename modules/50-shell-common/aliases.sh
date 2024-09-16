@@ -46,6 +46,11 @@ if command -v waybar > /dev/null; then
   alias togglewaybar='killall -SIGUSR1 waybar'
 fi
 
+if command -v wezterm > /dev/null; then
+  alias meow='curl -fsSL "https://api.thecatapi.com/v1/images/search?format=src" | wezterm imgcat'
+  alias woof='curl -fsSL "https://api.thedogapi.com/v1/images/search?format=src" | wezterm imgcat'
+fi
+
 _git_wip() {
   _git_add
 }
