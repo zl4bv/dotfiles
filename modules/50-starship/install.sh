@@ -9,8 +9,12 @@ if ! command -v starship >/dev/null 2>&1; then
       brew install starship
       ;;
 
+    pacman)
+      sudo pacman -Sy starship
+      ;;
+
     *)
-      curl -fsSL https://starship.rs/install.sh | bash
+      curl -fsSL https://starship.rs/install.sh | sh
       ;;
   esac
 fi
