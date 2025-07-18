@@ -51,7 +51,7 @@ else if test -r /usr/local/bin/brew
 end
 
 if test -e "$HOME/.cargo/bin/starship"
-  "$HOME/.cargo/bin/starship" init fish | source
+  $HOME/.cargo/bin/starship init fish | source
 else if command -v starship >/dev/null 2>&1
   starship init fish | source
 end
