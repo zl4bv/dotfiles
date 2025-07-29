@@ -6,9 +6,6 @@ if command -v wezterm > /dev/null
 end
 
 function cdp
-  if test -z $argv[1]
-    return
-  end
   cd "$HOME/projects/$argv[1]"
 end
 complete -c cdp -a '(ls $HOME/projects)'
